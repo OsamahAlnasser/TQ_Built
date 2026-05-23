@@ -1208,7 +1208,13 @@ const TRANSLATIONS = { en, ar };
 export default function TQBuilt() {
   const [scrolled, setScrolled] = useState(false);
   const [language, setLanguage] = useState('ar');
-  const [theme, setTheme] = useState(() => document.documentElement.getAttribute('data-theme') || 'light');
+  const [theme, setTheme] = useState(() => {
+    const fromDom = document.documentElement.getAttribute('data-theme');
+    if (fromDom === 'light' || fromDom === 'dark') return fromDom;
+    const saved = localStorage.getItem('tq-theme');
+    if (saved === 'light' || saved === 'dark') return saved;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
   const t = TRANSLATIONS[language];
 
   useEffect(() => {
