@@ -192,6 +192,7 @@ input::placeholder,textarea::placeholder{color:var(--text-faint);}
   .mob-col{flex-direction:column!important;}
   .mob-full{width:100%!important;}
   .mob-center{text-align:center!important;align-items:center!important;}
+  .nav-lang-toggle{display:none!important;}
   section[id]{padding:84px 20px!important;}
   footer{padding:52px 20px 28px!important;}
   h1.bb{font-size:clamp(2.85rem,14vw,4.35rem)!important;line-height:1!important;letter-spacing:1px!important;}
@@ -285,7 +286,7 @@ function Nav({ scrolled, t, language, onLanguageChange, theme, onThemeToggle }) 
           ))}
         </div>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <div className="lang-toggle" aria-label="Language Toggle">
+          <div className="lang-toggle nav-lang-toggle" aria-label="Language Toggle">
             <button type="button" className={language === 'ar' ? 'active' : ''} onClick={() => onLanguageChange('ar')}>
               {t.languageSwitch.ar}
             </button>
@@ -324,6 +325,14 @@ function Nav({ scrolled, t, language, onLanguageChange, theme, onThemeToggle }) 
             gap: 28,
           }}
         >
+          <div className="lang-toggle" aria-label="Language Toggle">
+            <button type="button" className={language === 'ar' ? 'active' : ''} onClick={() => onLanguageChange('ar')}>
+              {t.languageSwitch.ar}
+            </button>
+            <button type="button" className={language === 'en' ? 'active' : ''} onClick={() => onLanguageChange('en')}>
+              {t.languageSwitch.en}
+            </button>
+          </div>
           {t.nav.links.map(([l, h]) => (
             <a key={h} href={h} className="nl" onClick={() => setMob(false)} style={{ fontSize: 13 }}>
               {l}
