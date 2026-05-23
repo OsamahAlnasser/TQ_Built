@@ -855,7 +855,7 @@ function FAQ({ t }) {
   );
 }
 
-function needsLtr(val) {
+function shouldApplyLtrClass(val) {
   return /[@+]|\b(Instagram|WhatsApp|Email|Dubai|UAE|tqbuilt|\.com)\b/i.test(val);
 }
 
@@ -895,7 +895,7 @@ function Contact({ t }) {
                   <div className="mm" style={{ fontSize: 9, letterSpacing: 2, color: '#4A4438', textTransform: 'uppercase', marginBottom: 2 }}>
                     {label}
                   </div>
-                  <div className={needsLtr(val) ? 'ltr' : ''} style={{ fontSize: 13, color: '#9A9080' }}>
+                  <div className={shouldApplyLtrClass(val) ? 'ltr' : ''} style={{ fontSize: 13, color: '#9A9080' }}>
                     {val}
                   </div>
                 </div>
@@ -1041,7 +1041,7 @@ function Footer({ t }) {
                   <a
                     key={l}
                     href={h}
-                    className={needsLtr(l) ? 'ltr' : ''}
+                    className={shouldApplyLtrClass(l) ? 'ltr' : ''}
                     style={{ textDecoration: 'none', fontSize: 13, color: '#7A7060', transition: 'color .3s' }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = '#C9A550';
