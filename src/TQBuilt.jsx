@@ -938,7 +938,7 @@ function FAQ({ t }) {
                 onClick={() => setOpen(open === i ? null : i)}
                 style={{
                   width: '100%',
-                  background: open === i ? 'var(--bg3)' : 'var(--bg3)',
+                  background: 'var(--bg3)',
                   border: '1px solid',
                   borderColor: open === i ? 'var(--primary-deep)' : 'var(--border-soft)',
                   padding: '24px 32px',
