@@ -17,7 +17,7 @@ const en = {
     tag: 'Tawfiq Morrar · Personal Coach',
     title: ['BUILT', 'DIFFERENT.', 'BUILT', 'TO LAST.'],
     description:
-      "Tawfiq doesn't hand you a generic plan and wish you luck. He builds you a complete system — a proprietary 5-phase method that reshapes how you train, eat, think, and live. Not for a quick fix.",
+      "Tawfiq doesn't hand you a generic plan and wish you luck. He builds you a complete system — a proprietary 5-phase method that reshapes how you train, eat, think, and live. Not for a short-term fix.",
     descriptionEmphasis: 'For long-term, real change.',
     ctaPrimary: 'Start Your Transformation',
     ctaSecondary: 'See the Blueprint',
