@@ -10,22 +10,22 @@ const en = {
       ['Plans', '#plans'],
       ['Contact', '#contact'],
     ],
-    beginHere: 'Begin Here',
-    beginTransformation: 'Begin Your Transformation',
+    beginHere: 'Start Here',
+    beginTransformation: 'Start Your Journey',
   },
   hero: {
     tag: 'Tawfiq Morrar · Personal Coach',
-    title: ['BUILT', 'DIFFERENT.', 'BUILT', 'FOR LIFE.'],
+    title: ['BUILT', 'DIFFERENT.', 'BUILT', 'TO LAST.'],
     description:
-      "Tawfiq Morrar doesn't give you a plan. He gives you a system — a proprietary 5-phase methodology that rewires how you move, eat, think, and live. Not for 12 weeks.",
-    descriptionEmphasis: 'For the rest of your life.',
+      "Tawfiq doesn't hand you a generic plan and wish you luck. He builds you a complete system — a proprietary 5-phase method that reshapes how you train, eat, think, and live. Not for a short-term fix.",
+    descriptionEmphasis: 'For long-term, real change.',
     ctaPrimary: 'Start Your Transformation',
-    ctaSecondary: 'Discover the Blueprint',
+    ctaSecondary: 'See the Blueprint',
     stats: [
-      { val: '500+', label: 'Clients Transformed' },
-      { val: '8+', label: 'Years of Method Mastery' },
+      { val: '500+', label: 'Clients with Real Transformations' },
+      { val: '8+', label: 'Years Refining the Method' },
       { val: '94%', label: 'Client Retention Rate' },
-      { val: '3×', label: 'Avg Results vs Generic Coaching' },
+      { val: '3×', label: 'Average Results vs Generic Coaching' },
     ],
   },
   about: {
@@ -36,10 +36,10 @@ const en = {
     portraitRole: 'TQ Built · Founder',
     tag: 'About Tawfiq',
     title: ['THE COACH', 'BEHIND THE', 'BLUEPRINT.'],
-    p1: 'Tawfiq Morrar is not your average personal trainer. With over eight years spent obsessively studying human performance — across biomechanics, metabolic science, sports psychology, and nutritional biochemistry — he has distilled his knowledge into a singular, proprietary methodology.',
+    p1: 'Tawfiq is not a standard trainer. Over 8+ years, he has deeply studied human performance — biomechanics, metabolism, sports psychology, and nutritional biochemistry — then translated that into a method that works in real life.',
     p2Prefix:
-      'Based between Dubai and serving clients globally, Tawfiq has transformed over 500 individuals — from complete beginners to professional athletes, executives to surgeons. His philosophy is simple:',
-    p2Emphasis: 'real results come from real understanding, not cookie-cutter programmes.',
+      'Based in Dubai and coaching clients worldwide, Tawfiq has guided 500+ people through meaningful transformation — from complete beginners to pro athletes, from executives to surgeons. His core belief is simple:',
+    p2Emphasis: 'lasting results come from real understanding, not recycled templates.',
     credentials: [
       'NSCA Certified Strength & Conditioning Specialist',
       'Precision Nutrition Level 2 Coach',
@@ -49,76 +49,76 @@ const en = {
       'CSCS — Weightlifting & Power Development',
     ],
     quote:
-      "I don't sell fitness. I architect transformation — from the inside out, from the ground up, and for the rest of your life.",
+      "I don't sell temporary fitness. I build real transformation step by step — in a way you can keep for life.",
     quoteBy: '— Tawfiq Morrar',
   },
   method: {
     tag: 'The TQ Blueprint',
-    title: ['THE METHOD', 'THAT CHANGES', 'EVERYTHING.'],
+    title: ['THE METHOD', 'THAT CHANGES', 'THE GAME.'],
     intro:
-      'The TQ Blueprint is a proprietary 5-phase coaching methodology developed over 8 years of working with high-performers, athletes, and transformation clients worldwide. It is not a programme. It is a complete system — and there is nothing else like it.',
+      'The TQ Blueprint is a proprietary 5-phase coaching method built over 8 years with high performers, athletes, and everyday people who wanted serious change. This is not a short programme. It is a complete system.',
     phases: [
       {
         n: '01',
         name: 'DECODE',
-        sub: 'The Total Body Audit',
-        desc: 'Before a single rep is programmed, Tawfiq conducts an exhaustive audit of your physiology, biomechanics, hormonal baseline, lifestyle load, sleep architecture, movement dysfunction, and nutritional patterns. Most coaches skip this phase entirely — the TQ Blueprint treats it as non-negotiable.',
+        sub: 'Full Body Read',
+        desc: 'Before any training starts, Tawfiq performs a deep assessment of your physiology, movement quality, hormones, lifestyle stress, sleep, and nutrition. Most coaches skip this. Here, it is the foundation of everything.',
         detail:
           'Postural & movement screening  ·  Metabolic profiling  ·  Lifestyle & stress audit  ·  Sleep quality analysis  ·  Goal architecture & timeline mapping',
       },
       {
         n: '02',
         name: 'BLUEPRINT',
-        sub: 'Custom Architecture',
-        desc: 'Using the decoded data, a fully bespoke training and nutrition architecture is designed from scratch. Not a template. Not an adaptation. A precision instrument built entirely around your physiology, schedule, history, and goals — with every variable set with clear intent.',
+        sub: 'Your Custom Architecture',
+        desc: 'Using that data, your training and nutrition system is built from scratch. No copy-paste templates. No surface edits. Every variable is set around your body, schedule, history, and goals.',
         detail:
           'Training periodization  ·  Nutritional protocol design  ·  Recovery scheduling  ·  KPI benchmarking  ·  Progressive overload modelling',
       },
       {
         n: '03',
         name: 'FORGE',
-        sub: 'The Build Phase',
-        desc: 'The execution phase. Systematic, progressive training that builds your foundation — structural strength, correct motor patterns, metabolic efficiency. Tawfiq coaches you through every session with real-time feedback, form analysis, and micro-adjustments that compound over time.',
+        sub: 'Build Phase',
+        desc: 'This is where execution happens: structured progressive training that builds strength, movement quality, and metabolic efficiency. Tawfiq coaches each step with direct feedback, form review, and precise adjustments.',
         detail:
           'Strength & hypertrophy programming  ·  Movement technique coaching  ·  Metabolic conditioning  ·  Weekly strategy calls  ·  Form video review cycles',
       },
       {
         n: '04',
         name: 'CALIBRATE',
-        sub: 'Optimization & Refinement',
-        desc: 'This is the phase that separates the TQ Blueprint from everything else. Using biometric data and performance metrics, the program is constantly refined — load, volume, nutrition, and recovery all adjusted in response to your evolving physiology. No plateau survives a properly executed recalibration.',
+        sub: 'Ongoing Optimization',
+        desc: 'This is the key differentiator. Based on your biometric and performance data, load, volume, nutrition, and recovery are continuously updated. When calibration is done properly, plateaus do not last.',
         detail:
           'Biometric tracking analysis  ·  Volume & intensity adjustment  ·  Nutrition periodization  ·  Deload & supercompensation cycles  ·  Adaptive plateau protocols',
       },
       {
         n: '05',
         name: 'EMBED',
-        sub: 'Lifestyle Integration & Permanence',
-        desc: 'Phase five ensures your transformation is not temporary. Tawfiq rewires your relationship with fitness, food, and discipline until they are not things you do — they are part of who you are. Identity-level change, backed by behaviour science and permanent habit architecture.',
+        sub: 'Make It Your Lifestyle',
+        desc: 'Phase five makes sure your results are not temporary. You build habits, discipline, and identity-level consistency so training and nutrition become part of who you are — not something you force.',
         detail:
           'Habit & identity architecture  ·  Long-term maintenance programming  ·  Mindset & discipline rewiring  ·  Independence protocols  ·  Future strategy planning',
       },
     ],
     whyTitle: ['WHY', 'IT', 'WORKS'],
     whyItems: [
-      ['No Templates', 'Every programme is built from zero using your personal data — not adapted from a stock plan.'],
-      ['Continuous Evolution', 'The CALIBRATE phase ensures the programme never plateaus — it adapts as you do.'],
-      ['Full-Spectrum Coaching', 'Training, nutrition, recovery, and mindset are integrated — not siloed.'],
-      ['Permanent Results', 'The EMBED phase rewires identity and habits at a level most coaches never reach.'],
+      ['No Templates', 'Every programme is built from zero using your real data — not adapted from a stock plan.'],
+      ['Continuous Progress', 'CALIBRATE keeps your plan evolving with your body so progress does not stall.'],
+      ['One Integrated System', 'Training, nutrition, recovery, and mindset are coached as one connected system.'],
+      ['Results That Stick', 'EMBED rewires habits and identity so your progress lasts well beyond the programme.'],
     ],
   },
   domains: {
     tag: 'Coaching Domains',
     title: ['EVERY', 'DOMAIN.', 'MASTERED.'],
     intro:
-      'The TQ Blueprint spans every dimension of human performance. Each domain is not a separate offering — it is an integrated layer of a single, unified approach to building a better human.',
+      'The TQ Blueprint covers every key layer of human performance. Each domain is part of one unified system designed to build a stronger, healthier, higher-performing you.',
     items: [
       {
         title: 'Strength & Hypertrophy',
         icon: '◈',
         accent: '#C9A550',
         tag: 'BUILD WHAT LASTS',
-        desc: "Tawfiq's approach to strength and muscle is rooted in biomechanical precision and progressive overload science. Forget random splits — this is a calculated architecture designed to build maximum lean mass while preserving joint health and movement quality for decades.",
+        desc: 'This approach is rooted in movement precision and progressive overload done right. No random splits — just deliberate programming built to add muscle, improve strength, and protect your joints long term.',
         bullets: [
           'Full periodized programming (linear, block, undulating)',
           'Movement pattern mastery: push, pull, hinge, squat',
@@ -131,8 +131,8 @@ const en = {
         title: 'Fat Loss & Body Recomposition',
         icon: '◆',
         accent: '#E85D04',
-        tag: 'REDEFINE YOUR COMPOSITION',
-        desc: 'The TQ approach to fat loss is metabolically intelligent. Muscle is preserved, hormonal health is protected, and a caloric deficit is created through strategic training and precision nutrition — not deprivation. Sustainable, permanent, and built around your real life.',
+        tag: 'RESHAPE SMARTLY',
+        desc: 'Fat loss here is strategic, not extreme. We protect muscle and hormonal health while creating an intelligent deficit through training and nutrition you can actually sustain in real life.',
         bullets: [
           'Metabolic rate assessment & management',
           'Muscle-preserving deficit protocols',
@@ -145,8 +145,8 @@ const en = {
         title: 'Athletic Performance',
         icon: '◇',
         accent: '#6BA3FF',
-        tag: 'UNLOCK YOUR CEILING',
-        desc: 'For athletes and high performers, Tawfiq designs sport-specific protocols that enhance explosiveness, agility, power output, and conditioning — built around your competition calendar and performance targets. Performance coaching at the level most professionals never access.',
+        tag: 'RAISE YOUR CEILING',
+        desc: 'For athletes and high performers, Tawfiq designs sport-specific systems to improve speed, power, agility, and conditioning — aligned with your competition calendar and performance goals.',
         bullets: [
           'Sport-specific strength & conditioning architecture',
           'Explosive power development protocols',
@@ -160,7 +160,7 @@ const en = {
         icon: '⬡',
         accent: '#C9A550',
         tag: 'FOOD AS STRATEGY',
-        desc: 'Tawfiq does not prescribe generic meal plans with arbitrary numbers. He architects a nutritional strategy that works with your metabolism, schedule, preferences, and lifestyle — periodized alongside your training for maximal effect and long-term adherence.',
+        desc: 'No generic meal sheets. Your nutrition strategy is built around your metabolism, preferences, schedule, and lifestyle — and synchronized with training phases for better adherence and better outcomes.',
         bullets: [
           'Macronutrient precision & temporal periodization',
           'Meal timing & circadian nutrition principles',
@@ -173,8 +173,8 @@ const en = {
         title: 'Mobility, Recovery & Longevity',
         icon: '○',
         accent: '#88D498',
-        tag: 'BUILT TO LAST',
-        desc: 'Most coaches treat recovery as an afterthought. Tawfiq treats it as 50% of the programme. Sleep, mobility, soft tissue work, breathwork, and deload cycles are all programmed with the same precision as training days — because they are training.',
+        tag: 'BUILT TO ENDURE',
+        desc: 'Recovery is not an afterthought. Sleep, mobility, tissue care, breathwork, and deload cycles are programmed with the same seriousness as training days.',
         bullets: [
           'Comprehensive mobility & flexibility programming',
           'Sleep quality protocols & circadian optimization',
@@ -187,8 +187,8 @@ const en = {
         title: 'Mental Fortitude & Discipline',
         icon: '◉',
         accent: '#B088D4',
-        tag: 'THE UNSEEN VARIABLE',
-        desc: 'Your body is only as strong as the mind directing it. Tawfiq works on the mental architecture of high performance — building discipline systems, resilience to setbacks, intrinsic motivation, and an identity that extends far beyond the gym walls.',
+        tag: 'THE HIDDEN EDGE',
+        desc: 'Your body can only go as far as your mindset allows. Tawfiq helps you build discipline systems, resilience, and identity-based habits that keep you consistent when motivation dips.',
         bullets: [
           'Performance psychology & mindset coaching',
           'Identity-based habit building (not willpower-based)',
@@ -201,14 +201,14 @@ const en = {
   },
   results: {
     tag: 'Client Results',
-    title: ['REAL PEOPLE.', 'REAL RESULTS.', 'NO ASTERISKS.'],
+    title: ['REAL PEOPLE.', 'REAL RESULTS.', 'NO HYPE.'],
     testimonials: [
       {
         name: 'Marcus Alderman',
         role: 'Finance Executive · Dubai',
         result: '−28kg in 6 Months',
         quote:
-          "I've worked with six coaches across three years. None came close to what Tawfiq delivered. He didn't just change my body — he changed the way I think about health entirely. The Blueprint method is genuinely different. I'm four years in and still progressing.",
+          "I worked with multiple coaches before Tawfiq. None delivered at this level. My body changed, but more importantly my mindset around health changed too — and years later I'm still progressing.",
         stats: [
           { l: 'Fat Lost', v: '28kg' },
           { l: 'Muscle Added', v: '6kg' },
@@ -220,7 +220,7 @@ const en = {
         role: 'Surgeon · Beirut',
         result: 'Complete Body Recomposition',
         quote:
-          "As a surgeon, I understand anatomy. What I didn't understand was how to apply it to my own body. Tawfiq's method is the most evidence-based coaching I've encountered. He's not just a coach — he's an architect of human potential.",
+          "As a surgeon, I understood anatomy in theory, but not how to apply it to myself. Tawfiq's coaching is practical, evidence-based, and structured in a way that actually works.",
         stats: [
           { l: 'Body Fat', v: '−14%' },
           { l: 'Strength', v: '+80%' },
@@ -232,7 +232,7 @@ const en = {
         role: 'Semi-Pro Footballer · UK',
         result: '+22% Athletic Performance',
         quote:
-          'Tawfiq has a completely different understanding of athletic development. He optimised not just my training but my entire lifestyle architecture. Sprint speed, recovery time, and power output all hit personal bests within 4 months.',
+          'Tawfiq optimized more than my workouts — he upgraded my full performance system. Sprint speed, recovery, and power all improved significantly in just 4 months.',
         stats: [
           { l: 'Sprint Speed', v: '+18%' },
           { l: 'Power Output', v: '+22%' },
@@ -244,7 +244,7 @@ const en = {
         role: 'Entrepreneur · Amman',
         result: 'Zero to Elite in 9 Months',
         quote:
-          "I started with zero fitness background. The DECODE phase revealed things about my movement and metabolism I had no idea about. Tawfiq built me a programme that created not just a body — but a relationship with fitness I'll carry for life.",
+          'I started from zero. The DECODE phase revealed issues in my movement and metabolism I never noticed. Now I have a stronger body and a healthier relationship with training that has lasted.',
         stats: [
           { l: 'Baseline', v: 'Zero' },
           { l: 'Duration', v: '9 months' },
@@ -263,9 +263,9 @@ const en = {
     tag: 'Investment Plans',
     title: ['CHOOSE YOUR', 'BLUEPRINT.'],
     intro:
-      'Every plan includes the full TQ Blueprint methodology. The difference is the depth of access, the duration of the engagement, and the speed of your results.',
+      'Every plan includes the full TQ Blueprint methodology. The difference is the level of access, coaching depth, and pace of progress you want.',
     allPlansNote:
-      'All plans include a free 20-minute discovery call · No contracts, no hidden fees · Cancel after minimum term · Results guaranteed or continued coaching at no charge',
+      'All plans include a free 20-minute discovery call · No hidden fees · Cancel after the minimum term · If agreed results are not met, coaching continues at no extra charge',
     included: 'Included',
     notIncluded: 'Not Included',
     applyReviewed: 'Applications reviewed within 48 hours',
@@ -275,7 +275,7 @@ const en = {
         duration: '3 Months',
         price: '$199',
         period: '/month',
-        line: 'Begin the Transformation',
+        line: 'Strong Start',
         hot: false,
         features: [
           'Full DECODE assessment',
@@ -295,7 +295,7 @@ const en = {
         duration: '6 Months',
         price: '$349',
         period: '/month',
-        line: 'The Full TQ Method',
+        line: 'Full TQ Method',
         hot: true,
         badge: 'MOST POPULAR',
         features: [
@@ -319,7 +319,7 @@ const en = {
         duration: '12 Months',
         price: '$499',
         period: '/month',
-        line: 'Total Life Transformation',
+        line: 'Complete Lifestyle Upgrade',
         hot: false,
         features: [
           'All 5 TQ Blueprint phases delivered',
@@ -369,35 +369,35 @@ const en = {
     items: [
       {
         q: 'What makes the TQ Blueprint different from other coaching programmes?',
-        a: 'Most coaching programmes hand you a template and call it personalisation. The TQ Blueprint begins with an exhaustive DECODE assessment — mapping your physiology, biomechanics, lifestyle, and psychology before a single workout is designed. The result is a programme that is uniquely yours. The 5-phase structure also means your programme evolves continuously rather than going stale at week 8.',
+        a: 'Most programmes give you a template and call it personal coaching. The TQ Blueprint starts with a full DECODE assessment — physiology, biomechanics, lifestyle, and mindset — before anything is prescribed. Then your plan keeps evolving through all 5 phases instead of stalling after a few weeks.',
       },
       {
         q: 'Do I need to be in Dubai, or can coaching be done remotely?',
-        a: "The TQ Blueprint is globally delivered. The majority of Tawfiq's clients train remotely — receiving the same depth of coaching through video check-ins, form analysis, the TQ app, and regular strategy calls. In-person sessions are available for clients in Dubai or through Tawfiq's international coaching availability.",
+        a: "You can train from anywhere. Most clients are remote and still get full support: video reviews, performance analysis, app tracking, and regular strategy calls. In-person sessions are available in Dubai and around travel availability.",
       },
       {
         q: 'How much time do I need to commit per week?',
-        a: "This is determined during the DECODE phase and is entirely built around your schedule. Programmes can be structured for 3 training days per week (Foundation clients) up to 6 days (Elite and Performance clients). What's non-negotiable is session quality: every session in the TQ Blueprint is intentional and worth doing.",
+        a: 'That is decided during DECODE around your real schedule. Programmes can be built for 3 to 6 training days per week. The non-negotiable part is session quality — every session has a clear job.',
       },
       {
         q: "Can I join if I'm a complete beginner?",
-        a: 'Absolutely. Starting with the TQ Blueprint as a beginner is a genuine advantage — correct movement patterns, habits, and metabolic foundations are built from day one. You avoid years of bad habits, wasted effort, and ingrained dysfunction that most people spend years trying to undo.',
+        a: 'Absolutely. Starting correctly as a beginner is a major advantage. You build movement quality, habits, and metabolic foundations from day one instead of spending years undoing mistakes.',
       },
       {
         q: 'What happens if I hit a plateau?',
-        a: 'Plateaus are anticipated and built into the methodology — specifically in the CALIBRATE phase. When adaptation occurs, Tawfiq adjusts variables systematically: training load, volume, nutritional periodization, recovery protocol. No plateau survives a properly executed recalibration. This is a core differentiator of the method.',
+        a: 'Plateaus are expected and planned for, especially in CALIBRATE. When adaptation appears, load, volume, nutrition, and recovery variables are adjusted methodically. Proper recalibration keeps progress moving.',
       },
       {
         q: 'What does the nutrition coaching actually involve?',
-        a: 'Beyond macros and calories — meal timing, food quality, gut health, metabolic optimization, evidence-based supplement protocols, and real-world strategies for travel and social eating. In Blueprint Elite, nutrition is fully periodized alongside your training phase for maximum compounding effect.',
+        a: 'Much more than calories and macros: meal timing, food quality, gut health, metabolic support, evidence-based supplements, and practical strategies for travel and social life. In Blueprint Elite, nutrition is fully periodized with training phases.',
       },
       {
         q: 'Is there a minimum commitment?',
-        a: "Yes — each plan has a minimum commitment matching its duration (3, 6, or 12 months). This is not about locking you in — the TQ Blueprint is a structured methodology with phases that require time to execute properly. Genuine transformation doesn't happen in 30 days, and Tawfiq won't pretend otherwise.",
+        a: 'Yes. Each plan has a minimum term equal to its duration (3, 6, or 12 months). This is not about locking you in — it is about giving each phase enough time to deliver sustainable change.',
       },
       {
         q: 'How do I get started?',
-        a: 'Fill out the contact form below or reach out directly via WhatsApp or Instagram. Every new client begins with a free 20-minute discovery call where Tawfiq personally assesses your goals, history, and fit with the programme. There is no hard sell — the method speaks for itself.',
+        a: 'Fill out the form below or message us directly on WhatsApp or Instagram. Every new client starts with a free 20-minute discovery call to assess goals, current status, and fit — no hard selling.',
       },
     ],
   },
@@ -405,7 +405,7 @@ const en = {
     tag: 'Start Now',
     title: ['YOUR FIRST', 'STEP STARTS', 'HERE.'],
     intro:
-      'Every transformation begins with a conversation. Fill out the form and Tawfiq will personally reach out within 24 hours to schedule your free 20-minute discovery call.',
+      'Every major transformation starts with an honest conversation. Fill in the form, and Tawfiq will personally review your submission and contact you within 24 hours to schedule your free 20-minute discovery call.',
     info: [
       ['✉', 'Email', 'tawfiq@tqbuilt.com'],
       ['📱', 'WhatsApp', '+971 50 123 4567'],
@@ -416,7 +416,7 @@ const en = {
     trustedFields: ['Finance', 'Medicine', 'Sport', 'Law', 'Entrepreneurship', 'Architecture'],
     receivedTitle: 'MESSAGE RECEIVED',
     receivedBody:
-      'Tawfiq will personally review your submission and be in touch within 24 hours to schedule your discovery call.',
+      'Tawfiq will personally review your submission and reach out within 24 hours to schedule your discovery call.',
     formTitle: 'BEGIN YOUR BLUEPRINT',
     formSubtitle: 'Free 20-minute discovery call included',
     labels: {
@@ -441,12 +441,12 @@ const en = {
       'Mobility & Longevity',
     ],
     preferredPlans: ['Not sure yet — help me decide', 'Foundation (3 months)', 'Architect (6 months)', 'Blueprint Elite (12 months)', 'Private Client'],
-    submit: 'Send — Begin the Conversation',
-    privacy: 'Your information is never shared or sold · Tawfiq personally reads every submission',
+    submit: 'Send — Start the Conversation',
+    privacy: 'Your information is never sold or shared · Tawfiq personally reads every submission',
   },
   footer: {
     description:
-      'Where science meets obsession. The TQ Blueprint — a proprietary 5-phase methodology for permanent human transformation.',
+      'Where science meets real execution. The TQ Blueprint — a proprietary 5-phase methodology built for lasting human transformation.',
     columns: [
       ['Navigate', [['The Method', '#method'], ['Fitness Domains', '#domains'], ['Client Results', '#results'], ['Investment Plans', '#plans'], ['Contact', '#contact']]],
       ['Programmes', [['Foundation (3 months)', '#plans'], ['Architect (6 months)', '#plans'], ['Blueprint Elite (12 months)', '#plans'], ['Private Client', '#contact']]],
