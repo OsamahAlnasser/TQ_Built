@@ -28,4 +28,5 @@ npm run preview
 
 - Vite base path is configured for project pages: `/TQ_Built/`.
 - Workflow file: `.github/workflows/deploy-pages.yml`.
+- In **Settings → Pages**, set **Source** to **GitHub Actions** (not “Deploy from a branch”).
 - On pushes to `main`, GitHub Actions builds the app and deploys the `dist` folder to GitHub Pages.
