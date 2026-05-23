@@ -444,7 +444,7 @@ function About({ t }) {
   const [ref, vis] = useVisible();
   return (
     <section id="about" ref={ref} style={{ background: 'var(--bg2)', padding: '120px 48px', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 400, background: 'radial-gradient(circle, rgba(201,165,80,.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 400, background: 'radial-gradient(circle, var(--gold-glow) 0%, transparent 70%)', pointerEvents: 'none' }} />
       <div className="about-grid" style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', gap: 80, alignItems: 'center', flexWrap: 'wrap' }}>
         <div className={vis ? 'vis' : ''} style={{ flex: '0 0 340px', position: 'relative' }}>
           <div
@@ -593,7 +593,7 @@ function PhaseCard({ phase: p, idx, vis }) {
       onClick={() => setOpen(!open)}
       style={{
         border: '1px solid var(--border)',
-        background: open ? 'rgba(201,165,80,.05)' : 'var(--bg2)',
+        background: open ? 'var(--gold-glow)' : 'var(--bg2)',
         padding: '32px 40px',
         cursor: 'pointer',
         borderColor: open ? 'var(--primary-deep)' : 'var(--border)',
