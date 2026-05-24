@@ -12,14 +12,19 @@ const en = {
     ],
     beginHere: 'Start Here',
     beginTransformation: 'Start Your Journey',
+    openMenu: 'Open menu',
+    closeMenu: 'Close menu',
+    lightMode: 'Light mode',
+    darkMode: 'Dark mode',
   },
   hero: {
     tag: 'Tawfiq Morrar · Personal Coach',
-    title: ['BUILT', 'DIFFERENT.', 'BUILT', 'TO LAST.'],
+    title: ['PERSONAL', 'COACHING.', 'BUILT', 'AROUND YOU.'],
     description:
-      "Tawfiq doesn't hand you a generic plan and wish you luck. He builds you a complete system — a proprietary 5-phase method that reshapes how you train, eat, think, and live. Not for a short-term fix.",
-    descriptionEmphasis: 'For long-term, real change.',
-    ctaPrimary: 'Start Your Transformation',
+      'Get a personal coaching system that combines training, nutrition, accountability, and behavior design into one clear execution plan.',
+    descriptionEmphasis: 'The TQ Built method is built to produce visible results and make them stick.',
+    ctaPrimary: 'Get My Coaching Path',
+    ctaTertiary: 'Book a Discovery Call',
     ctaSecondary: 'See the Blueprint',
     stats: [
       { val: '500+', label: 'Clients with Real Transformations' },
@@ -27,6 +32,148 @@ const en = {
       { val: '94%', label: 'Client Retention Rate' },
       { val: '3×', label: 'Average Results vs Generic Coaching' },
     ],
+  },
+  quickQuiz: {
+    tag: 'Quick Personalization',
+    title: ['GET A FAST', 'COACHING DIRECTION'],
+    intro: 'Answer these quick questions and get a suggested starting path (non-medical guidance).',
+    questions: [
+      {
+        id: 'goal',
+        label: 'Main goal',
+        options: [
+          { v: 'fatLoss', l: 'Fat loss & recomposition' },
+          { v: 'muscle', l: 'Strength & muscle gain' },
+          { v: 'performance', l: 'Athletic performance' },
+          { v: 'lifestyle', l: 'Lifestyle reset' },
+        ],
+      },
+      {
+        id: 'experience',
+        label: 'Experience level',
+        options: [
+          { v: 'beginner', l: 'Beginner' },
+          { v: 'intermediate', l: 'Intermediate' },
+          { v: 'advanced', l: 'Advanced' },
+        ],
+      },
+      {
+        id: 'time',
+        label: 'Weekly training time',
+        options: [
+          { v: 'short', l: '3 sessions' },
+          { v: 'medium', l: '4 sessions' },
+          { v: 'high', l: '5+ sessions' },
+        ],
+      },
+      {
+        id: 'support',
+        label: 'Support preference',
+        options: [
+          { v: 'structured', l: 'Structured weekly guidance' },
+          { v: 'high-touch', l: 'High-touch close follow-up' },
+        ],
+      },
+    ],
+    submit: 'Show my suggested path',
+    resultLabel: 'Suggested start',
+    paths: {
+      fatLoss: {
+        title: 'Body Recomposition Path',
+        body: 'Start with DECODE + nutrition periodization + progressive lifting with tight weekly check-ins.',
+      },
+      muscle: {
+        title: 'Strength & Muscle Path',
+        body: 'Focus on periodized hypertrophy blocks, movement coaching, and high-protein precision nutrition.',
+      },
+      performance: {
+        title: 'Performance Upgrade Path',
+        body: 'Build a sport-focused cycle around speed, power, and recovery metrics with CALIBRATE updates.',
+      },
+      lifestyle: {
+        title: 'Lifestyle Reset Path',
+        body: 'Use training, nutrition habits, and accountability systems to make consistency automatic.',
+      },
+      default: {
+        title: 'Custom Starter Path',
+        body: 'Book a call and we will map your first 4-week strategy based on your current baseline.',
+      },
+    },
+  },
+  method3: {
+    tag: 'Method in 3 Steps',
+    title: ['THE TQ BUILT', 'EXECUTION LOOP'],
+    intro: 'The full 5-phase method runs through this practical three-step loop every week.',
+    steps: [
+      { n: '01', title: 'Assess', body: 'We decode your current state, stress load, movement quality, and recovery readiness.' },
+      { n: '02', title: 'Build', body: 'You follow a precise training + nutrition plan designed around your body and schedule.' },
+      { n: '03', title: 'Refine', body: 'We review data, adjust variables, and keep progress climbing without plateaus.' },
+    ],
+  },
+  clientWins: {
+    tag: 'Client Wins',
+    title: ['REAL WINS.', 'STRUCTURED PROGRESS.'],
+    intro: 'Each case is tracked by measurable metrics, not hype.',
+    prev: 'Previous story',
+    next: 'Next story',
+    items: [
+      {
+        name: 'Sami H.',
+        profile: 'Founder · Dubai',
+        metrics: [
+          ['Body Fat', '31% → 18%'],
+          ['Strength', '+42%'],
+          ['Duration', '20 weeks'],
+        ],
+        quote: 'The biggest win was structure. I knew exactly what to do each week and finally stayed consistent.',
+      },
+      {
+        name: 'Nour A.',
+        profile: 'Doctor · Riyadh',
+        metrics: [
+          ['Weight', '−16 kg'],
+          ['Sleep', '+1.7 hrs'],
+          ['Duration', '7 months'],
+        ],
+        quote: 'This was not random motivation. It was a complete personal coaching system that fit my schedule.',
+      },
+      {
+        name: 'Adam K.',
+        profile: 'Semi-Pro Athlete · London',
+        metrics: [
+          ['Sprint', '+0.18s'],
+          ['Power', '+19%'],
+          ['Injury Days', '0'],
+        ],
+        quote: 'Training, nutrition, and recovery were finally connected, and my performance jumped fast.',
+      },
+    ],
+  },
+  mobileCta: {
+    primary: 'Start Now',
+    secondary: 'Book a Call',
+  },
+  leadModal: {
+    tag: 'Start in 60 Seconds',
+    title: ['LET’S PLAN', 'YOUR FIRST STEP'],
+    intro: 'Share your basics and Tawfiq will send your best next step within 24 hours.',
+    close: 'Close modal',
+    placeholders: {
+      name: 'Your name',
+      email: 'Your email',
+      goal: 'Select your main goal',
+    },
+    goals: ['Fat loss', 'Strength & muscle', 'Performance', 'Lifestyle reset'],
+    submit: 'Send my request',
+    successTitle: 'REQUEST RECEIVED',
+    successBody: 'Great start. We will contact you shortly with your recommended coaching path.',
+    done: 'Done',
+    errors: {
+      nameRequired: 'Please enter your name.',
+      emailRequired: 'Please enter your email.',
+      emailInvalid: 'Please enter a valid email.',
+      goalRequired: 'Please select your goal.',
+    },
   },
   about: {
     badgeYears: '8+ YEARS',
