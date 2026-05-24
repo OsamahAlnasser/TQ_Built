@@ -74,7 +74,6 @@ const STYLES = `
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-#root{overflow-x:hidden}
 body {
   background: var(--bg);
   color: var(--text);
@@ -190,9 +189,9 @@ input::placeholder,textarea::placeholder{color:var(--text-faint);}
   transition:all .25s ease;
 }
 
-@media(max-width:1024px){
-  .results-grid,.contact-grid{grid-template-columns:1fr!important;}
-  .testimonials-side{border-inline-end:none!important;border-bottom:1px solid var(--border)!important;}
+@media (max-width: 1024px) {
+  .results-grid, .contact-grid { grid-template-columns: 1fr !important; }
+  .testimonials-side { border-inline-end: none !important; border-bottom: 1px solid var(--border) !important; }
 }
 
 @media(max-width:768px){
@@ -249,6 +248,16 @@ const EXTRA_STYLES = `
 .rtl .rtl-divider{border-right:1px solid var(--border-strong)!important;border-left:none!important;padding-right:16px!important;padding-left:0!important}
 .ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
 `;
+const MOBILE_BREAKPOINT = 768;
+const mobileMediaQuery = `(max-width: ${MOBILE_BREAKPOINT}px)`;
+const reusableEmailInput =
+  typeof document !== 'undefined'
+    ? (() => {
+        const input = document.createElement('input');
+        input.type = 'email';
+        return input;
+      })()
+    : null;
 
 function useVisible(threshold = 0.15) {
   const ref = useRef(null);
@@ -291,7 +300,7 @@ function Nav({ scrolled, t, language, onLanguageChange, theme, onThemeToggle }) 
           justifyContent: 'space-between',
         }}
       >
-        <a href="#home" className="logo-lockup" style={{ textDecoration: 'none' }}>
+        <a href="#home" className="logo-lockup" style={{ textDecoration: 'none' }} aria-label={t.code === 'ar' ? 'الذهاب إلى الصفحة الرئيسية' : 'Go to homepage'}>
           <span className="bb" style={{ fontSize: '30px', letterSpacing: '4px', color: 'var(--primary)', textShadow: '0 0 30px rgba(201,165,80,.4)' }}>
             TQ
           </span>
@@ -1175,6 +1184,12 @@ function shouldApplyLtrClass(val) {
   return /[@+]|\b(Instagram|WhatsApp|Email|Dubai|UAE|tqbuilt|\.com)\b/i.test(val);
 }
 
+function isValidEmail(email) {
+  if (!reusableEmailInput) return false;
+  reusableEmailInput.value = email.trim();
+  return reusableEmailInput.checkValidity();
+}
+
 function Contact({ t }) {
   const [ref, vis] = useVisible(0.08);
   const [form, setForm] = useState({ name: '', email: '', goal: '', message: '' });
@@ -1416,7 +1431,7 @@ function LeadCaptureModal({ t, onClose }) {
     const nextErrors = {};
     if (!form.name.trim()) nextErrors.name = t.leadModal.errors.nameRequired;
     if (!form.email.trim()) nextErrors.email = t.leadModal.errors.emailRequired;
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) nextErrors.email = t.leadModal.errors.emailInvalid;
+    else if (!isValidEmail(form.email)) nextErrors.email = t.leadModal.errors.emailInvalid;
     if (!form.goal.trim()) nextErrors.goal = t.leadModal.errors.goalRequired;
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length === 0) setDone(true);
@@ -1426,6 +1441,7 @@ function LeadCaptureModal({ t, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
+      aria-labelledby="lead-modal-title"
       style={{
         position: 'fixed',
         inset: 0,
@@ -1457,7 +1473,7 @@ function LeadCaptureModal({ t, onClose }) {
             <span className="tag" style={{ marginBottom: 14, display: 'inline-block' }}>
               {t.leadModal.tag}
             </span>
-            <h3 className="bb" style={{ fontSize: 44, lineHeight: 0.94, marginBottom: 10 }}>
+            <h3 id="lead-modal-title" className="bb" style={{ fontSize: 44, lineHeight: 0.94, marginBottom: 10 }}>
               {t.leadModal.title[0]}
               <br />
               <span className="ot">{t.leadModal.title[1]}</span>
@@ -1476,7 +1492,9 @@ function LeadCaptureModal({ t, onClose }) {
                 <select value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })}>
                   <option value="">{t.leadModal.placeholders.goal}</option>
                   {t.leadModal.goals.map((goal) => (
-                    <option key={goal}>{goal}</option>
+                    <option key={goal} value={goal}>
+                      {goal}
+                    </option>
                   ))}
                 </select>
                 {errors.goal && <div style={{ color: 'var(--accent)', fontSize: 12, marginTop: 4 }}>{errors.goal}</div>}
@@ -1496,7 +1514,7 @@ function StickyMobileCta({ t, onOpenLeadModal }) {
   const [show, setShow] = useState(false);
   useEffect(() => {
     const onScroll = () => {
-      const isMobile = window.innerWidth <= 768;
+      const isMobile = window.matchMedia(mobileMediaQuery).matches;
       setShow(isMobile && window.scrollY > 360);
     };
     onScroll();
