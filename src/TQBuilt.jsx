@@ -182,9 +182,16 @@ input::placeholder,textarea::placeholder{color:var(--text-faint);}
   width:100%;
 }
 
-@media(max-width:1024px){
-  .results-grid,.contact-grid{grid-template-columns:1fr!important;}
-  .testimonials-side{border-inline-end:none!important;border-bottom:1px solid var(--border)!important;}
+.logo-lockup{direction:ltr;unicode-bidi:isolate;display:flex;align-items:baseline;gap:6px}
+.menu-toggle{display:none}
+.mobile-only{display:none!important}
+.quiz-option-btn,.step-card,.wins-nav-btn,.sticky-cta-btn{
+  transition:all .25s ease;
+}
+
+@media (max-width: 1024px) {
+  .results-grid, .contact-grid { grid-template-columns: 1fr !important; }
+  .testimonials-side { border-inline-end: none !important; border-bottom: 1px solid var(--border) !important; }
 }
 
 @media(max-width:768px){
@@ -204,6 +211,21 @@ input::placeholder,textarea::placeholder{color:var(--text-faint);}
   .testimonial-stats{padding:28px 20px!important;}
   nav{padding:0 20px!important;}
   .mobile-menu{padding:28px 20px!important;}
+  .menu-toggle{display:inline-flex!important}
+  .hero-section{min-height:auto!important;padding:112px 20px 56px!important;overflow:visible!important}
+  .hero-copy{font-size:18px!important;line-height:1.7!important}
+  .hero-stats{padding-top:28px!important}
+  .logo-lockup .bb:first-child{font-size:24px!important;letter-spacing:3px!important}
+  .logo-lockup .bb:nth-child(2){font-size:17px!important;letter-spacing:4px!important}
+  .mobile-only{display:block!important}
+  .desktop-only{display:none!important}
+  .quick-quiz-grid{grid-template-columns:1fr!important}
+  .sticky-mobile-cta{display:flex!important}
+}
+
+@media(max-width:420px){
+  .lang-toggle button{padding:8px 9px!important;font-size:.67rem!important}
+  .hero-copy{font-size:16px!important}
 }
 `;
 
@@ -226,6 +248,16 @@ const EXTRA_STYLES = `
 .rtl .rtl-divider{border-right:1px solid var(--border-strong)!important;border-left:none!important;padding-right:16px!important;padding-left:0!important}
 .ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
 `;
+const MOBILE_BREAKPOINT = 768;
+const mobileMediaQuery = `(max-width: ${MOBILE_BREAKPOINT}px)`;
+const reusableEmailInput =
+  typeof document !== 'undefined'
+    ? (() => {
+        const input = document.createElement('input');
+        input.type = 'email';
+        return input;
+      })()
+    : null;
 
 function useVisible(threshold = 0.15) {
   const ref = useRef(null);
@@ -268,7 +300,7 @@ function Nav({ scrolled, t, language, onLanguageChange, theme, onThemeToggle }) 
           justifyContent: 'space-between',
         }}
       >
-        <a href="#home" style={{ textDecoration: 'none', display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+        <a href="#home" className="logo-lockup" style={{ textDecoration: 'none' }} aria-label={t.code === 'ar' ? 'الذهاب إلى الصفحة الرئيسية' : 'Go to homepage'}>
           <span className="bb" style={{ fontSize: '30px', letterSpacing: '4px', color: 'var(--primary)', textShadow: '0 0 30px rgba(201,165,80,.4)' }}>
             TQ
           </span>
@@ -284,7 +316,7 @@ function Nav({ scrolled, t, language, onLanguageChange, theme, onThemeToggle }) 
             </a>
           ))}
         </div>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <div className="lang-toggle" aria-label="Language Toggle">
             <button type="button" className={language === 'ar' ? 'active' : ''} onClick={() => onLanguageChange('ar')}>
               {t.languageSwitch.ar}
@@ -293,7 +325,7 @@ function Nav({ scrolled, t, language, onLanguageChange, theme, onThemeToggle }) 
               {t.languageSwitch.en}
             </button>
           </div>
-          <button type="button" className="icon-btn" onClick={onThemeToggle} aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
+          <button type="button" className="icon-btn" onClick={onThemeToggle} aria-label={theme === 'dark' ? t.nav.lightMode : t.nav.darkMode}>
             {theme === 'dark' ? '☀︎' : '☾'}
           </button>
           <a href="#contact" className="hide-mob" style={{ textDecoration: 'none' }}>
@@ -301,7 +333,7 @@ function Nav({ scrolled, t, language, onLanguageChange, theme, onThemeToggle }) 
               {t.nav.beginHere}
             </button>
           </a>
-          <button type="button" className="icon-btn" onClick={() => setMob(!mob)} aria-label={mob ? 'Close menu' : 'Open menu'} style={{ fontSize: 22, padding: '4px 10px' }}>
+          <button type="button" className="icon-btn menu-toggle" onClick={() => setMob(!mob)} aria-label={mob ? t.nav.closeMenu : t.nav.openMenu} style={{ fontSize: 22, padding: '4px 10px' }}>
             {mob ? '✕' : '☰'}
           </button>
         </div>
@@ -335,7 +367,7 @@ function Nav({ scrolled, t, language, onLanguageChange, theme, onThemeToggle }) 
             </button>
           </a>
           <button type="button" className="icon-btn" onClick={onThemeToggle} style={{ width: '100%' }}>
-            {theme === 'dark' ? '☀︎ Light' : '☾ Dark'}
+            {theme === 'dark' ? `☀︎ ${t.nav.lightMode}` : `☾ ${t.nav.darkMode}`}
           </button>
         </div>
       )}
@@ -343,11 +375,11 @@ function Nav({ scrolled, t, language, onLanguageChange, theme, onThemeToggle }) 
   );
 }
 
-function Hero({ t }) {
+function Hero({ t, onOpenLeadModal }) {
   return (
     <section
       id="home"
-      className="hero-grid"
+      className="hero-grid hero-section"
       style={{
         minHeight: '100vh',
         display: 'flex',
@@ -396,14 +428,17 @@ function Hero({ t }) {
         </div>
         <div className="vis-d2" style={{ display: 'flex', gap: 40, alignItems: 'flex-start', marginBottom: 48, flexWrap: 'wrap' }}>
           <div style={{ width: 2, minHeight: 80, background: 'linear-gradient(180deg,var(--primary),transparent)', flexShrink: 0, marginTop: 4 }} className="hide-mob" />
-          <p className="cg" style={{ fontSize: 22, lineHeight: 1.6, color: 'var(--text-muted)', maxWidth: 540, fontStyle: 'italic' }}>
+          <p className="cg hero-copy" style={{ fontSize: 22, lineHeight: 1.6, color: 'var(--text-muted)', maxWidth: 620, fontStyle: 'italic' }}>
             {t.hero.description} <em style={{ color: 'var(--primary)' }}>{t.hero.descriptionEmphasis}</em>
           </p>
         </div>
         <div className="vis-d3" style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 80 }}>
+          <button className="ctap" style={{ padding: '16px 36px', fontSize: 12 }} onClick={onOpenLeadModal}>
+            {t.hero.ctaPrimary}
+          </button>
           <a href="#contact" style={{ textDecoration: 'none' }}>
             <button className="ctap" style={{ padding: '16px 36px', fontSize: 12 }}>
-              {t.hero.ctaPrimary}
+              {t.hero.ctaTertiary}
             </button>
           </a>
           <a href="#method" style={{ textDecoration: 'none' }}>
@@ -412,7 +447,7 @@ function Hero({ t }) {
             </button>
           </a>
         </div>
-        <div className="vis-d4" style={{ display: 'flex', gap: 0, flexWrap: 'wrap', borderTop: '1px solid var(--border)', paddingTop: 40 }}>
+        <div className="vis-d4 hero-stats" style={{ display: 'flex', gap: 0, flexWrap: 'wrap', borderTop: '1px solid var(--border)', paddingTop: 40 }}>
           {t.hero.stats.map((s, i) => (
             <div
               key={i}
@@ -436,6 +471,184 @@ function Hero({ t }) {
       </div>
 
       <div className="shimmer-line" style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
+    </section>
+  );
+}
+
+function QuickQuiz({ t }) {
+  const [answers, setAnswers] = useState({});
+  const [result, setResult] = useState(null);
+
+  const onSelect = (questionId, value) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: value }));
+  };
+
+  const onSuggest = () => {
+    if (!answers.goal) return;
+    const map = t.quickQuiz.paths;
+    setResult(map[answers.goal] ?? map.default);
+  };
+
+  return (
+    <section style={{ background: 'var(--bg2)', padding: '68px 48px 72px', borderTop: '1px solid var(--border-soft)', borderBottom: '1px solid var(--border-soft)' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <span className="tag" style={{ marginBottom: 16, display: 'inline-block' }}>
+          {t.quickQuiz.tag}
+        </span>
+        <h2 className="bb" style={{ fontSize: 56, lineHeight: 0.95, letterSpacing: 1, marginBottom: 18 }}>
+          {t.quickQuiz.title[0]}
+          <br />
+          <span className="gt">{t.quickQuiz.title[1]}</span>
+        </h2>
+        <p style={{ color: 'var(--text-soft)', maxWidth: 780, marginBottom: 24 }}>{t.quickQuiz.intro}</p>
+        <div className="quick-quiz-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2,minmax(0,1fr))', gap: 16 }}>
+          {t.quickQuiz.questions.map((question) => (
+            <div key={question.id} style={{ border: '1px solid var(--border)', background: 'var(--surface)', padding: 18 }}>
+              <div className="mm" style={{ fontSize: 10, color: 'var(--text-faint)', letterSpacing: 1.5, marginBottom: 12 }}>
+                {question.label}
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                {question.options.map((option) => (
+                  <button
+                    key={option.v}
+                    type="button"
+                    className="quiz-option-btn"
+                    onClick={() => onSelect(question.id, option.v)}
+                    style={{
+                      border: '1px solid',
+                      borderColor: answers[question.id] === option.v ? 'var(--primary)' : 'var(--border-strong)',
+                      background: answers[question.id] === option.v ? 'var(--gold-glow)' : 'transparent',
+                      color: answers[question.id] === option.v ? 'var(--primary-strong)' : 'var(--text-soft)',
+                      padding: '8px 12px',
+                      fontSize: 12,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {option.l}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 18, display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center' }}>
+          <button type="button" className="ctap" style={{ padding: '12px 20px', fontSize: 11 }} onClick={onSuggest}>
+            {t.quickQuiz.submit}
+          </button>
+          {result && (
+            <div style={{ border: '1px solid var(--primary-deep)', background: 'var(--gold-glow)', padding: '12px 16px', flex: 1, minWidth: 260 }}>
+              <div className="mm" style={{ fontSize: 9, letterSpacing: 1.4, color: 'var(--text-faint)', marginBottom: 4 }}>
+                {t.quickQuiz.resultLabel}
+              </div>
+              <div style={{ fontWeight: 700, color: 'var(--primary-strong)', marginBottom: 4 }}>{result.title}</div>
+              <p style={{ color: 'var(--text-soft)', fontSize: 13 }}>{result.body}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MethodIn3Steps({ t }) {
+  const [active, setActive] = useState(0);
+  return (
+    <section style={{ background: 'var(--bg)', padding: '92px 48px' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <span className="tag" style={{ marginBottom: 18, display: 'inline-block' }}>
+          {t.method3.tag}
+        </span>
+        <h2 className="bb" style={{ fontSize: 56, lineHeight: 0.95, marginBottom: 18 }}>
+          {t.method3.title[0]}
+          <br />
+          <span className="gt">{t.method3.title[1]}</span>
+        </h2>
+        <p style={{ color: 'var(--text-soft)', maxWidth: 760, marginBottom: 24 }}>{t.method3.intro}</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,260px),1fr))', gap: 14 }}>
+          {t.method3.steps.map((step, idx) => (
+            <button
+              type="button"
+              key={step.n}
+              className="step-card"
+              onClick={() => setActive(idx)}
+              style={{
+                textAlign: 'start',
+                border: '1px solid',
+                borderColor: active === idx ? 'var(--primary)' : 'var(--border)',
+                background: active === idx ? 'var(--gold-glow)' : 'var(--surface)',
+                padding: 22,
+                cursor: 'pointer',
+              }}
+            >
+              <div className="bb" style={{ fontSize: 34, color: active === idx ? 'var(--primary-strong)' : 'var(--border-strong)', lineHeight: 1 }}>
+                {step.n}
+              </div>
+              <h3 className="bb" style={{ fontSize: 25, letterSpacing: 1.5, margin: '10px 0 8px', color: 'var(--text)' }}>
+                {step.title}
+              </h3>
+              <p style={{ color: 'var(--text-soft)', fontSize: 13, lineHeight: 1.7 }}>{step.body}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ClientWinsCarousel({ t }) {
+  const [index, setIndex] = useState(0);
+  const wins = t.clientWins.items;
+  const current = wins[index];
+
+  const next = () => setIndex((prev) => (prev + 1) % wins.length);
+  const prev = () => setIndex((prev) => (prev - 1 + wins.length) % wins.length);
+
+  return (
+    <section style={{ background: 'var(--bg2)', padding: '92px 48px' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <span className="tag" style={{ marginBottom: 18, display: 'inline-block' }}>
+          {t.clientWins.tag}
+        </span>
+        <h2 className="bb" style={{ fontSize: 56, lineHeight: 0.95, marginBottom: 18 }}>
+          {t.clientWins.title[0]}
+          <br />
+          <span className="gt">{t.clientWins.title[1]}</span>
+        </h2>
+        <p style={{ color: 'var(--text-soft)', maxWidth: 760, marginBottom: 22 }}>{t.clientWins.intro}</p>
+        <div style={{ border: '1px solid var(--border)', background: 'var(--surface)', padding: 22 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, alignItems: 'center', marginBottom: 14, flexWrap: 'wrap' }}>
+            <div>
+              <div style={{ color: 'var(--text)', fontWeight: 700 }}>{current.name}</div>
+              <div className="mm" style={{ fontSize: 10, color: 'var(--text-faint)', letterSpacing: 1.2, marginTop: 4 }}>
+                {current.profile}
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button type="button" className="wins-nav-btn icon-btn" onClick={prev} aria-label={t.clientWins.prev}>
+                ←
+              </button>
+              <button type="button" className="wins-nav-btn icon-btn" onClick={next} aria-label={t.clientWins.next}>
+                →
+              </button>
+            </div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,160px),1fr))', gap: 10, marginBottom: 12 }}>
+            {current.metrics.map(([label, value]) => (
+              <div key={label} style={{ border: '1px solid var(--border-soft)', padding: 12, background: 'var(--bg2)' }}>
+                <div className="mm" style={{ fontSize: 9, letterSpacing: 1.4, color: 'var(--text-faint)', marginBottom: 6 }}>
+                  {label}
+                </div>
+                <div className="bb gt" style={{ fontSize: 28 }}>
+                  {value}
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="cg" style={{ color: 'var(--text-muted)', fontSize: 16, fontStyle: 'italic' }}>
+            "{current.quote}"
+          </p>
+        </div>
+      </div>
     </section>
   );
 }
@@ -971,6 +1184,12 @@ function shouldApplyLtrClass(val) {
   return /[@+]|\b(Instagram|WhatsApp|Email|Dubai|UAE|tqbuilt|\.com)\b/i.test(val);
 }
 
+function isValidEmail(email) {
+  if (!reusableEmailInput) return false;
+  reusableEmailInput.value = email.trim();
+  return reusableEmailInput.checkValidity();
+}
+
 function Contact({ t }) {
   const [ref, vis] = useVisible(0.08);
   const [form, setForm] = useState({ name: '', email: '', goal: '', message: '' });
@@ -1131,7 +1350,7 @@ function Footer({ t }) {
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 48, flexWrap: 'wrap', gap: 40 }}>
           <div style={{ maxWidth: 280 }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 16 }}>
+            <div className="logo-lockup" style={{ marginBottom: 16 }}>
               <span className="bb" style={{ fontSize: 32, letterSpacing: 4, color: 'var(--primary)' }}>
                 TQ
               </span>
@@ -1203,11 +1422,146 @@ function MarqueeBanner({ t }) {
   );
 }
 
+function LeadCaptureModal({ t, onClose }) {
+  const [form, setForm] = useState({ name: '', email: '', goal: '' });
+  const [errors, setErrors] = useState({});
+  const [done, setDone] = useState(false);
+
+  const submit = () => {
+    const nextErrors = {};
+    if (!form.name.trim()) nextErrors.name = t.leadModal.errors.nameRequired;
+    if (!form.email.trim()) nextErrors.email = t.leadModal.errors.emailRequired;
+    else if (!isValidEmail(form.email)) nextErrors.email = t.leadModal.errors.emailInvalid;
+    if (!form.goal.trim()) nextErrors.goal = t.leadModal.errors.goalRequired;
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length === 0) setDone(true);
+  };
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="lead-modal-title"
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 1100,
+        background: 'rgba(7,7,7,.74)',
+        backdropFilter: 'blur(6px)',
+        padding: 20,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <div style={{ width: 'min(560px,100%)', border: '1px solid var(--border)', background: 'var(--surface)', padding: 24, position: 'relative' }}>
+        <button type="button" className="icon-btn" onClick={onClose} aria-label={t.leadModal.close} style={{ position: 'absolute', top: 12, insetInlineEnd: 12 }}>
+          ✕
+        </button>
+        {done ? (
+          <div style={{ paddingTop: 12 }}>
+            <div className="bb gt" style={{ fontSize: 38, lineHeight: 1, marginBottom: 10 }}>
+              {t.leadModal.successTitle}
+            </div>
+            <p style={{ color: 'var(--text-soft)', marginBottom: 16 }}>{t.leadModal.successBody}</p>
+            <button type="button" className="ctap" style={{ padding: '12px 18px', fontSize: 11 }} onClick={onClose}>
+              {t.leadModal.done}
+            </button>
+          </div>
+        ) : (
+          <>
+            <span className="tag" style={{ marginBottom: 14, display: 'inline-block' }}>
+              {t.leadModal.tag}
+            </span>
+            <h3 id="lead-modal-title" className="bb" style={{ fontSize: 44, lineHeight: 0.94, marginBottom: 10 }}>
+              {t.leadModal.title[0]}
+              <br />
+              <span className="ot">{t.leadModal.title[1]}</span>
+            </h3>
+            <p style={{ color: 'var(--text-soft)', marginBottom: 14 }}>{t.leadModal.intro}</p>
+            <div style={{ display: 'grid', gap: 12 }}>
+              <div>
+                <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder={t.leadModal.placeholders.name} />
+                {errors.name && <div style={{ color: 'var(--accent)', fontSize: 12, marginTop: 4 }}>{errors.name}</div>}
+              </div>
+              <div>
+                <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder={t.leadModal.placeholders.email} />
+                {errors.email && <div style={{ color: 'var(--accent)', fontSize: 12, marginTop: 4 }}>{errors.email}</div>}
+              </div>
+              <div>
+                <select value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })}>
+                  <option value="">{t.leadModal.placeholders.goal}</option>
+                  {t.leadModal.goals.map((goal) => (
+                    <option key={goal} value={goal}>
+                      {goal}
+                    </option>
+                  ))}
+                </select>
+                {errors.goal && <div style={{ color: 'var(--accent)', fontSize: 12, marginTop: 4 }}>{errors.goal}</div>}
+              </div>
+              <button type="button" className="ctap" style={{ padding: '14px', fontSize: 11 }} onClick={submit}>
+                {t.leadModal.submit}
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function StickyMobileCta({ t, onOpenLeadModal }) {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const onScroll = () => {
+      const isMobile = window.matchMedia(mobileMediaQuery).matches;
+      setShow(isMobile && window.scrollY > 360);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
+  if (!show) return null;
+
+  return (
+    <div
+      className="sticky-mobile-cta"
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1001,
+        background: 'var(--nav-overlay)',
+        borderTop: '1px solid var(--border-strong)',
+        padding: '10px 12px calc(10px + env(safe-area-inset-bottom))',
+        display: 'none',
+        gap: 8,
+      }}
+    >
+      <button type="button" className="ctap sticky-cta-btn" style={{ flex: 1, fontSize: 10, padding: '11px 8px' }} onClick={onOpenLeadModal}>
+        {t.mobileCta.primary}
+      </button>
+      <a href="#contact" style={{ flex: 1, textDecoration: 'none' }}>
+        <button type="button" className="ctao sticky-cta-btn" style={{ width: '100%', fontSize: 10, padding: '11px 8px' }}>
+          {t.mobileCta.secondary}
+        </button>
+      </a>
+    </div>
+  );
+}
+
 const TRANSLATIONS = { en, ar };
 
 export default function TQBuilt() {
   const [scrolled, setScrolled] = useState(false);
   const [language, setLanguage] = useState('ar');
+  const [leadModalOpen, setLeadModalOpen] = useState(false);
   const [theme, setTheme] = useState(() => {
     const fromDom = document.documentElement.getAttribute('data-theme');
     if (fromDom === 'light' || fromDom === 'dark') return fromDom;
@@ -1242,17 +1596,22 @@ export default function TQBuilt() {
       <style>{STYLES}</style>
       <style>{EXTRA_STYLES}</style>
       <Nav scrolled={scrolled} t={t} language={language} onLanguageChange={setLanguage} theme={theme} onThemeToggle={handleThemeToggle} />
-      <Hero t={t} />
+      <Hero t={t} onOpenLeadModal={() => setLeadModalOpen(true)} />
+      <QuickQuiz t={t} />
+      <MethodIn3Steps t={t} />
       <MarqueeBanner t={t} />
       <About t={t} />
       <Method t={t} />
       <Domains t={t} />
+      <ClientWinsCarousel t={t} />
       <Results t={t} />
       <MarqueeBanner t={t} />
       <Pricing t={t} />
       <FAQ t={t} />
       <Contact t={t} />
       <Footer t={t} />
+      <StickyMobileCta t={t} onOpenLeadModal={() => setLeadModalOpen(true)} />
+      {leadModalOpen && <LeadCaptureModal t={t} onClose={() => setLeadModalOpen(false)} />}
     </div>
   );
 }
