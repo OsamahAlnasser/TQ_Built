@@ -664,6 +664,7 @@ function QuickQuiz({ t }) {
           {t.quickQuiz.tag}
         </span>
         <h2 className="bb" style={{ fontSize: 'clamp(2rem, 4.8vw, 3.5rem)', lineHeight: 0.95, letterSpacing: 1, marginBottom: 18 }}>
+          {t.quickQuiz.title[0]}
           <br />
           <span className="gt">{t.quickQuiz.title[1]}</span>
         </h2>
@@ -1019,6 +1020,7 @@ function Domains({ t }) {
           </span>
           <div className="domains-header" style={{ display: 'flex', gap: 60, alignItems: 'flex-end', flexWrap: 'wrap' }}>
             <h2 className="bb" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)', lineHeight: 0.9, letterSpacing: 1, color: 'var(--text)' }}>
+              {t.domains.title[0]}
               <br />
               {t.domains.title[1]}
               <br />
@@ -1303,6 +1305,7 @@ function FAQ({ t }) {
             {t.faq.tag}
           </span>
           <h2 className="bb" style={{ fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', lineHeight: 0.95, letterSpacing: 1, color: 'var(--text)' }}>
+            {t.faq.title[0]}
             <br />
             {t.faq.title[1]}
             <br />
