@@ -192,6 +192,7 @@ input::placeholder,textarea::placeholder{color:var(--text-faint);}
 @media (max-width: 1024px) {
   .results-grid, .contact-grid { grid-template-columns: 1fr !important; }
   .testimonials-side { border-inline-end: none !important; border-bottom: 1px solid var(--border) !important; }
+  .hero-visual-col { display: none !important; }
 }
 
 @media(max-width:768px){
@@ -201,10 +202,12 @@ input::placeholder,textarea::placeholder{color:var(--text-faint);}
   .mob-center{text-align:center!important;align-items:center!important;}
   section[id]{padding:84px 20px!important;}
   footer{padding:52px 20px 28px!important;}
-  h1.bb{font-size:clamp(2.85rem,14vw,4.35rem)!important;line-height:1!important;letter-spacing:1px!important;}
-  section h2.bb{font-size:clamp(2rem,10vw,3.2rem)!important;line-height:1.05!important;letter-spacing:.5px!important;}
+  h1.bb{font-size:clamp(2.5rem,12vw,3.8rem)!important;line-height:1!important;letter-spacing:1px!important;}
+  .rtl h1.bb{font-size:clamp(1.9rem,9vw,3rem)!important;}
+  section h2.bb{font-size:clamp(1.8rem,9vw,3rem)!important;line-height:1.05!important;letter-spacing:.5px!important;}
+  .rtl section h2.bb{font-size:clamp(1.5rem,7.5vw,2.5rem)!important;}
   .mob-p{padding:72px 20px!important;}
-  .mob-text-sm{font-size:clamp(2.85rem,14vw,4.35rem)!important;line-height:1!important;}
+  .mob-text-sm{font-size:clamp(2.5rem,12vw,3.8rem)!important;line-height:1!important;}
   .about-grid,.method-header,.domains-header,.contact-grid{gap:28px!important;}
   .form-grid{grid-template-columns:1fr!important;}
   .testimonials-side{padding:32px 20px!important;}
@@ -213,7 +216,7 @@ input::placeholder,textarea::placeholder{color:var(--text-faint);}
   .mobile-menu{padding:28px 20px!important;}
   .menu-toggle{display:inline-flex!important}
   .hero-section{min-height:auto!important;padding:112px 20px 56px!important;overflow:visible!important}
-  .hero-copy{font-size:18px!important;line-height:1.7!important}
+  .hero-copy{font-size:17px!important;line-height:1.75!important}
   .hero-stats{padding-top:28px!important}
   .logo-lockup .bb:first-child{font-size:24px!important;letter-spacing:3px!important}
   .logo-lockup .bb:nth-child(2){font-size:17px!important;letter-spacing:4px!important}
@@ -225,7 +228,7 @@ input::placeholder,textarea::placeholder{color:var(--text-faint);}
 
 @media(max-width:420px){
   .lang-toggle button{padding:8px 9px!important;font-size:.67rem!important}
-  .hero-copy{font-size:16px!important}
+  .hero-copy{font-size:15px!important}
 }
 `;
 
@@ -247,6 +250,13 @@ const EXTRA_STYLES = `
 .rtl .rtl-right{border-right:1px solid var(--border)!important;border-left:none!important}
 .rtl .rtl-divider{border-right:1px solid var(--border-strong)!important;border-left:none!important;padding-right:16px!important;padding-left:0!important}
 .ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+/* Arabic display typography — Tajawal renders much wider than Bebas Neue,
+   so we scale display headings down specifically for RTL mode */
+.rtl h1.bb { font-size: clamp(2rem, 5.5vw, 4rem) !important; line-height: 1.05 !important; }
+.rtl section h2.bb { font-size: clamp(1.7rem, 4.5vw, 3rem) !important; line-height: 1.1 !important; }
+.rtl .hero-copy { font-size: clamp(1rem, 2.8vw, 1.25rem) !important; line-height: 1.85 !important; }
+.rtl .hero-stats-val { font-size: clamp(1.8rem, 3.5vw, 2.8rem) !important; }
 `;
 const MOBILE_BREAKPOINT = 768;
 const mobileMediaQuery = `(max-width: ${MOBILE_BREAKPOINT}px)`;
@@ -276,6 +286,161 @@ function useVisible(threshold = 0.15) {
     return () => obs.disconnect();
   }, [threshold]);
   return [ref, vis];
+}
+
+// ─── HERO CANVAS ──────────────────────────────────────────────────────────────
+function HeroCanvas() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let raf;
+    let W = 0, H = 0;
+
+    const resize = () => {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const N = 55;
+    const pts = Array.from({ length: N }, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.22,
+      vy: (Math.random() - 0.5) * 0.22,
+      r: Math.random() * 1.2 + 0.4,
+    }));
+
+    const tick = () => {
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < N; i++) {
+        const p = pts[i];
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > W) { p.vx *= -1; p.x = Math.max(0, Math.min(W, p.x)); }
+        if (p.y < 0 || p.y > H) { p.vy *= -1; p.y = Math.max(0, Math.min(H, p.y)); }
+        for (let j = i + 1; j < N; j++) {
+          const q = pts[j];
+          const dx = p.x - q.x, dy = p.y - q.y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < 130) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(201,165,80,${0.07 * (1 - d / 130)})`;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+            ctx.stroke();
+          }
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(201,165,80,0.28)';
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    tick();
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); };
+  }, []);
+
+  return (
+    <canvas
+      ref={ref}
+      aria-hidden="true"
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+    />
+  );
+}
+
+// ─── HERO VISUAL ──────────────────────────────────────────────────────────────
+function HeroVisual() {
+  const cx = 220, cy = 220, R = 150;
+  const pentagonPoints = [0, 1, 2, 3, 4].map((i) => {
+    const a = (i * 72 - 90) * (Math.PI / 180);
+    return [cx + R * Math.cos(a), cy + R * Math.sin(a)];
+  });
+
+  return (
+    <div
+      className="hero-visual-col hide-mob"
+      style={{
+        position: 'relative',
+        width: 440,
+        height: 440,
+        flexShrink: 0,
+        pointerEvents: 'none',
+        userSelect: 'none',
+      }}
+    >
+      <svg
+        viewBox="0 0 440 440"
+        width="440"
+        height="440"
+        fill="none"
+        aria-hidden="true"
+        style={{ position: 'absolute', inset: 0 }}
+      >
+        {/* Background rings */}
+        <circle cx={cx} cy={cy} r={R + 48} stroke="rgba(201,165,80,0.04)" strokeWidth="1" />
+        <circle cx={cx} cy={cy} r={R + 18} stroke="rgba(201,165,80,0.06)" strokeWidth="1" strokeDasharray="3 10" />
+        <circle cx={cx} cy={cy} r={R} stroke="rgba(201,165,80,0.10)" strokeWidth="1" />
+        <circle cx={cx} cy={cy} r={R - 55} stroke="rgba(201,165,80,0.07)" strokeWidth="1" strokeDasharray="2 8" />
+        <circle cx={cx} cy={cy} r={44} stroke="rgba(201,165,80,0.22)" strokeWidth="1" fill="rgba(201,165,80,0.04)" />
+
+        {/* Pentagon outline */}
+        <polygon
+          points={pentagonPoints.map(([x, y]) => `${x},${y}`).join(' ')}
+          stroke="rgba(201,165,80,0.09)"
+          strokeWidth="0.8"
+          fill="rgba(201,165,80,0.02)"
+        />
+
+        {/* Phase nodes */}
+        {pentagonPoints.map(([x, y], i) => (
+          <g key={i}>
+            <line x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(201,165,80,0.07)" strokeWidth="0.7" />
+            <circle cx={x} cy={y} r="18" stroke="rgba(201,165,80,0.25)" strokeWidth="1" fill="rgba(201,165,80,0.06)" />
+            <circle cx={x} cy={y} r="5" fill="rgba(201,165,80,0.45)" />
+          </g>
+        ))}
+
+        {/* Center TQ mark */}
+        <text x={cx} y={cy - 6} textAnchor="middle" fill="rgba(201,165,80,0.28)" fontSize="30" fontFamily="Bebas Neue, sans-serif" letterSpacing="5">TQ</text>
+        <text x={cx} y={cy + 16} textAnchor="middle" fill="rgba(201,165,80,0.14)" fontSize="8" fontFamily="DM Mono, monospace" letterSpacing="5">METHOD</text>
+      </svg>
+
+      {/* Floating metric chips */}
+      {[
+        { val: '500+', label: 'Clients', angle: -60, dist: 195 },
+        { val: '94%', label: 'Retention', angle: 30, dist: 185 },
+        { val: '5×', label: 'Phases', angle: 130, dist: 200 },
+      ].map(({ val, label, angle, dist }, i) => {
+        const rad = angle * (Math.PI / 180);
+        const left = cx + dist * Math.cos(rad) - 44;
+        const top = cy + dist * Math.sin(rad) - 24;
+        return (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              left,
+              top,
+              background: 'rgba(14,14,14,0.88)',
+              border: '1px solid rgba(201,165,80,0.22)',
+              backdropFilter: 'blur(10px)',
+              padding: '6px 12px',
+              textAlign: 'center',
+              minWidth: 88,
+            }}
+          >
+            <div className="bb gt" style={{ fontSize: 20, letterSpacing: 1 }}>{val}</div>
+            <div className="mm" style={{ fontSize: 7.5, letterSpacing: 1.8, color: 'var(--text-faint)', textTransform: 'uppercase', marginTop: 1 }}>{label}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 function Nav({ scrolled, t, language, onLanguageChange, theme, onThemeToggle }) {
@@ -384,90 +549,93 @@ function Hero({ t, onOpenLeadModal }) {
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
-        background: `radial-gradient(ellipse 65% 55% at 70% 45%, rgba(201,165,80,.06) 0%, transparent 65%),
-                   radial-gradient(ellipse 45% 65% at 15% 85%, rgba(232,93,4,.04) 0%, transparent 55%),
+        background: `radial-gradient(ellipse 75% 60% at 65% 40%, rgba(201,165,80,.07) 0%, transparent 60%),
+                   radial-gradient(ellipse 50% 70% at 10% 90%, rgba(232,93,4,.05) 0%, transparent 55%),
+                   radial-gradient(ellipse 35% 40% at 90% 15%, rgba(201,165,80,.04) 0%, transparent 50%),
                    var(--bg)`,
         position: 'relative',
         overflow: 'hidden',
         padding: '120px 48px 80px',
       }}
     >
-      <div style={{ position: 'absolute', left: 180, top: 0, bottom: 0, width: 1, background: 'linear-gradient(180deg, transparent, rgba(201,165,80,.15), transparent)' }} className="hide-mob" />
-      <div
-        className="bb hide-mob"
-        style={{
-          position: 'absolute',
-          right: -20,
-          top: '50%',
-          transform: 'translateY(-50%)',
-          fontSize: 520,
-          color: 'rgba(201,165,80,.022)',
-          letterSpacing: -20,
-          lineHeight: 1,
-          userSelect: 'none',
-          pointerEvents: 'none',
-        }}
-      >
-        TQ
-      </div>
+      {/* Particle constellation background */}
+      <HeroCanvas />
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', position: 'relative' }}>
-        <div className="vis" style={{ marginBottom: 28 }}>
-          <span className="tag">{t.hero.tag}</span>
-        </div>
-        <div className="vis-d1">
-          <h1 className="bb mob-text-sm" style={{ fontSize: 130, lineHeight: 0.9, letterSpacing: 2, marginBottom: 32, color: 'var(--text)' }}>
-            {t.hero.title[0]}
-            <br />
-            <span className="gt">{t.hero.title[1]}</span>
-            <br />
-            {t.hero.title[2]}
-            <br />
-            {t.hero.title[3]}
-          </h1>
-        </div>
-        <div className="vis-d2" style={{ display: 'flex', gap: 40, alignItems: 'flex-start', marginBottom: 48, flexWrap: 'wrap' }}>
-          <div style={{ width: 2, minHeight: 80, background: 'linear-gradient(180deg,var(--primary),transparent)', flexShrink: 0, marginTop: 4 }} className="hide-mob" />
-          <p className="cg hero-copy" style={{ fontSize: 22, lineHeight: 1.6, color: 'var(--text-muted)', maxWidth: 620, fontStyle: 'italic' }}>
-            {t.hero.description} <em style={{ color: 'var(--primary)' }}>{t.hero.descriptionEmphasis}</em>
-          </p>
-        </div>
-        <div className="vis-d3" style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 80 }}>
-          <button className="ctap" style={{ padding: '16px 36px', fontSize: 12 }} onClick={onOpenLeadModal}>
-            {t.hero.ctaPrimary}
-          </button>
-          <a href="#contact" style={{ textDecoration: 'none' }}>
-            <button className="ctap" style={{ padding: '16px 36px', fontSize: 12 }}>
-              {t.hero.ctaTertiary}
-            </button>
-          </a>
-          <a href="#method" style={{ textDecoration: 'none' }}>
-            <button className="ctao" style={{ padding: '16px 36px', fontSize: 12 }}>
-              {t.hero.ctaSecondary}
-            </button>
-          </a>
-        </div>
-        <div className="vis-d4 hero-stats" style={{ display: 'flex', gap: 0, flexWrap: 'wrap', borderTop: '1px solid var(--border)', paddingTop: 40 }}>
-          {t.hero.stats.map((s, i) => (
-            <div
-              key={i}
+      {/* Decorative vertical line */}
+      <div style={{ position: 'absolute', left: 180, top: 0, bottom: 0, width: 1, background: 'linear-gradient(180deg, transparent, rgba(201,165,80,.15), transparent)' }} className="hide-mob" />
+
+      <div style={{ maxWidth: 1300, margin: '0 auto', width: '100%', position: 'relative', display: 'flex', gap: 48, alignItems: 'center' }}>
+        {/* Content column */}
+        <div style={{ flex: '1 1 480px', minWidth: 0 }}>
+          <div className="vis" style={{ marginBottom: 28 }}>
+            <span className="tag">{t.hero.tag}</span>
+          </div>
+          <div className="vis-d1">
+            <h1
+              className="bb mob-text-sm"
               style={{
-                flex: '1 1 160px',
-                paddingInlineEnd: 32,
-                borderInlineEnd: i < t.hero.stats.length - 1 ? '1px solid var(--border)' : 'none',
-                marginInlineEnd: 32,
-                marginBottom: 20,
+                fontSize: 'clamp(3.2rem, 7.5vw, 6rem)',
+                lineHeight: 0.92,
+                letterSpacing: 2,
+                marginBottom: 32,
+                color: 'var(--text)',
               }}
             >
-              <div className="bb gt" style={{ fontSize: 44, letterSpacing: 2 }}>
-                {s.val}
+              {t.hero.title[0]}
+              <br />
+              <span className="gt">{t.hero.title[1]}</span>
+              <br />
+              {t.hero.title[2]}
+              <br />
+              {t.hero.title[3]}
+            </h1>
+          </div>
+          <div className="vis-d2" style={{ display: 'flex', gap: 40, alignItems: 'flex-start', marginBottom: 40, flexWrap: 'wrap' }}>
+            <div style={{ width: 2, minHeight: 80, background: 'linear-gradient(180deg,var(--primary),transparent)', flexShrink: 0, marginTop: 4 }} className="hide-mob" />
+            <p className="cg hero-copy" style={{ fontSize: 'clamp(1rem, 2.2vw, 1.35rem)', lineHeight: 1.7, color: 'var(--text-muted)', maxWidth: 600, fontStyle: 'italic' }}>
+              {t.hero.description} <em style={{ color: 'var(--primary)' }}>{t.hero.descriptionEmphasis}</em>
+            </p>
+          </div>
+          <div className="vis-d3" style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 64 }}>
+            <button className="ctap" style={{ padding: '16px 36px', fontSize: 12 }} onClick={onOpenLeadModal}>
+              {t.hero.ctaPrimary}
+            </button>
+            <a href="#contact" style={{ textDecoration: 'none' }}>
+              <button className="ctap" style={{ padding: '16px 36px', fontSize: 12 }}>
+                {t.hero.ctaTertiary}
+              </button>
+            </a>
+            <a href="#method" style={{ textDecoration: 'none' }}>
+              <button className="ctao" style={{ padding: '16px 36px', fontSize: 12 }}>
+                {t.hero.ctaSecondary}
+              </button>
+            </a>
+          </div>
+          <div className="vis-d4 hero-stats" style={{ display: 'flex', gap: 0, flexWrap: 'wrap', borderTop: '1px solid var(--border)', paddingTop: 36 }}>
+            {t.hero.stats.map((s, i) => (
+              <div
+                key={i}
+                style={{
+                  flex: '1 1 140px',
+                  paddingInlineEnd: 28,
+                  borderInlineEnd: i < t.hero.stats.length - 1 ? '1px solid var(--border)' : 'none',
+                  marginInlineEnd: 28,
+                  marginBottom: 20,
+                }}
+              >
+                <div className="bb gt hero-stats-val" style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', letterSpacing: 2, lineHeight: 1 }}>
+                  {s.val}
+                </div>
+                <div className="mm" style={{ fontSize: 9.5, letterSpacing: 1.8, color: 'var(--text-faint)', textTransform: 'uppercase', marginTop: 6 }}>
+                  {s.label}
+                </div>
               </div>
-              <div className="mm" style={{ fontSize: 10, letterSpacing: 2, color: 'var(--text-faint)', textTransform: 'uppercase', marginTop: 4 }}>
-                {s.label}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
+        {/* Decorative visual column — hidden at ≤1024px via .hero-visual-col */}
+        <HeroVisual />
       </div>
 
       <div className="shimmer-line" style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
@@ -495,7 +663,7 @@ function QuickQuiz({ t }) {
         <span className="tag" style={{ marginBottom: 16, display: 'inline-block' }}>
           {t.quickQuiz.tag}
         </span>
-        <h2 className="bb" style={{ fontSize: 56, lineHeight: 0.95, letterSpacing: 1, marginBottom: 18 }}>
+        <h2 className="bb" style={{ fontSize: 'clamp(2rem, 4.8vw, 3.5rem)', lineHeight: 0.95, letterSpacing: 1, marginBottom: 18 }}>
           {t.quickQuiz.title[0]}
           <br />
           <span className="gt">{t.quickQuiz.title[1]}</span>
@@ -558,7 +726,7 @@ function MethodIn3Steps({ t }) {
         <span className="tag" style={{ marginBottom: 18, display: 'inline-block' }}>
           {t.method3.tag}
         </span>
-        <h2 className="bb" style={{ fontSize: 56, lineHeight: 0.95, marginBottom: 18 }}>
+        <h2 className="bb" style={{ fontSize: 'clamp(2rem, 4.8vw, 3.5rem)', lineHeight: 0.95, marginBottom: 18 }}>
           {t.method3.title[0]}
           <br />
           <span className="gt">{t.method3.title[1]}</span>
@@ -609,7 +777,7 @@ function ClientWinsCarousel({ t }) {
         <span className="tag" style={{ marginBottom: 18, display: 'inline-block' }}>
           {t.clientWins.tag}
         </span>
-        <h2 className="bb" style={{ fontSize: 56, lineHeight: 0.95, marginBottom: 18 }}>
+        <h2 className="bb" style={{ fontSize: 'clamp(2rem, 4.8vw, 3.5rem)', lineHeight: 0.95, marginBottom: 18 }}>
           {t.clientWins.title[0]}
           <br />
           <span className="gt">{t.clientWins.title[1]}</span>
@@ -699,7 +867,7 @@ function About({ t }) {
           <span className="tag" style={{ marginBottom: 24, display: 'inline-block' }}>
             {t.about.tag}
           </span>
-          <h2 className="bb" style={{ fontSize: 64, lineHeight: 0.95, letterSpacing: 1, marginBottom: 28, color: 'var(--text)' }}>
+          <h2 className="bb" style={{ fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', lineHeight: 0.95, letterSpacing: 1, marginBottom: 28, color: 'var(--text)' }}>
             {t.about.title[0]}
             <br />
             {t.about.title[1]}
@@ -741,7 +909,7 @@ function Method({ t }) {
             <span className="tag" style={{ marginBottom: 20, display: 'inline-block' }}>
               {t.method.tag}
             </span>
-            <h2 className="bb" style={{ fontSize: 80, lineHeight: 0.9, letterSpacing: 1, color: 'var(--text)' }}>
+            <h2 className="bb" style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', lineHeight: 0.9, letterSpacing: 1, color: 'var(--text)' }}>
               {t.method.title[0]}
               <br />
               {t.method.title[1]}
@@ -773,7 +941,7 @@ function Method({ t }) {
             flexWrap: 'wrap',
           }}
         >
-          <div className="bb gt" style={{ fontSize: 80, lineHeight: 1, flexShrink: 0 }}>
+          <div className="bb gt" style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', lineHeight: 1, flexShrink: 0 }}>
             {t.method.whyTitle[0]}
             <br />
             {t.method.whyTitle[1]}
@@ -851,7 +1019,7 @@ function Domains({ t }) {
             {t.domains.tag}
           </span>
           <div className="domains-header" style={{ display: 'flex', gap: 60, alignItems: 'flex-end', flexWrap: 'wrap' }}>
-            <h2 className="bb" style={{ fontSize: 72, lineHeight: 0.9, letterSpacing: 1, color: 'var(--text)' }}>
+            <h2 className="bb" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)', lineHeight: 0.9, letterSpacing: 1, color: 'var(--text)' }}>
               {t.domains.title[0]}
               <br />
               {t.domains.title[1]}
@@ -921,7 +1089,7 @@ function Results({ t }) {
           <span className="tag" style={{ marginBottom: 20, display: 'inline-block' }}>
             {t.results.tag}
           </span>
-          <h2 className="bb" style={{ fontSize: 72, lineHeight: 0.9, letterSpacing: 1, color: 'var(--text)' }}>
+          <h2 className="bb" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)', lineHeight: 0.9, letterSpacing: 1, color: 'var(--text)' }}>
             {t.results.title[0]}
             <br />
             <span className="gt">{t.results.title[1]}</span>
@@ -1015,7 +1183,7 @@ function Pricing({ t }) {
           <span className="tag" style={{ marginBottom: 20, display: 'inline-block' }}>
             {t.plans.tag}
           </span>
-          <h2 className="bb" style={{ fontSize: 72, lineHeight: 0.95, letterSpacing: 1, color: 'var(--text)', marginBottom: 20 }}>
+          <h2 className="bb" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)', lineHeight: 0.95, letterSpacing: 1, color: 'var(--text)', marginBottom: 20 }}>
             {t.plans.title[0]}
             <br />
             <span className="gt">{t.plans.title[1]}</span>
@@ -1136,7 +1304,7 @@ function FAQ({ t }) {
           <span className="tag" style={{ marginBottom: 20, display: 'inline-block' }}>
             {t.faq.tag}
           </span>
-          <h2 className="bb" style={{ fontSize: 64, lineHeight: 0.95, letterSpacing: 1, color: 'var(--text)' }}>
+          <h2 className="bb" style={{ fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', lineHeight: 0.95, letterSpacing: 1, color: 'var(--text)' }}>
             {t.faq.title[0]}
             <br />
             {t.faq.title[1]}
@@ -1209,7 +1377,7 @@ function Contact({ t }) {
           <span className="tag" style={{ marginBottom: 24, display: 'inline-block' }}>
             {t.contact.tag}
           </span>
-          <h2 className="bb" style={{ fontSize: 72, lineHeight: 0.9, letterSpacing: 1, color: 'var(--text)', marginBottom: 32 }}>
+          <h2 className="bb" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)', lineHeight: 0.9, letterSpacing: 1, color: 'var(--text)', marginBottom: 32 }}>
             {t.contact.title[0]}
             <br />
             {t.contact.title[1]}
