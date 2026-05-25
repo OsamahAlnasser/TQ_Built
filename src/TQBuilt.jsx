@@ -3,9 +3,9 @@ import en from './translations/en';
 import ar from './translations/ar';
 
 // ─── GLOBAL STYLES ────────────────────────────────────────────────────────────
+// Note: Google Fonts are loaded via <link> in index.html to avoid @import in
+// dynamic <style> tags, which can trigger spurious 404s in some environments.
 const STYLES = `
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Tajawal:wght@400;500;700;800&display=swap');
-
 :root {
   --latin-font: 'DM Sans', sans-serif;
   --arabic-font: 'Tajawal', 'DM Sans', sans-serif;
@@ -294,7 +294,10 @@ function HeroCanvas() {
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
+
     const ctx = canvas.getContext('2d');
+    if (!ctx) return; // guard: canvas 2d unavailable (e.g. hardware acceleration off)
+
     let raf;
     let W = 0, H = 0;
 
@@ -305,7 +308,14 @@ function HeroCanvas() {
     resize();
     window.addEventListener('resize', resize);
 
-    const N = 55;
+    // Respect user's motion preference — skip animation but keep resize cleanup
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      return () => window.removeEventListener('resize', resize);
+    }
+
+    // Fewer particles on small screens to reduce CPU load
+    const N = window.innerWidth < 768 ? 25 : 55;
     const pts = Array.from({ length: N }, () => ({
       x: Math.random() * W,
       y: Math.random() * H,
@@ -493,10 +503,8 @@ function Nav({ scrolled, t, language, onLanguageChange, theme, onThemeToggle }) 
           <button type="button" className="icon-btn" onClick={onThemeToggle} aria-label={theme === 'dark' ? t.nav.lightMode : t.nav.darkMode}>
             {theme === 'dark' ? '☀︎' : '☾'}
           </button>
-          <a href="#contact" className="hide-mob" style={{ textDecoration: 'none' }}>
-            <button className="ctap" style={{ padding: '10px 26px', fontSize: 11 }}>
-              {t.nav.beginHere}
-            </button>
+          <a href="#contact" className="ctap hide-mob" style={{ padding: '10px 26px', fontSize: 11, display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
+            {t.nav.beginHere}
           </a>
           <button type="button" className="icon-btn menu-toggle" onClick={() => setMob(!mob)} aria-label={mob ? t.nav.closeMenu : t.nav.openMenu} style={{ fontSize: 22, padding: '4px 10px' }}>
             {mob ? '✕' : '☰'}
@@ -526,10 +534,8 @@ function Nav({ scrolled, t, language, onLanguageChange, theme, onThemeToggle }) 
               {l}
             </a>
           ))}
-          <a href="#contact" style={{ textDecoration: 'none' }}>
-            <button className="ctap" style={{ padding: '12px 32px', fontSize: 11, width: '100%' }}>
-              {t.nav.beginTransformation}
-            </button>
+          <a href="#contact" className="ctap" style={{ padding: '12px 32px', fontSize: 11, width: '100%', display: 'block', textAlign: 'center', textDecoration: 'none' }} onClick={() => setMob(false)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setMob(false); }}>
+            {t.nav.beginTransformation}
           </a>
           <button type="button" className="icon-btn" onClick={onThemeToggle} style={{ width: '100%' }}>
             {theme === 'dark' ? `☀︎ ${t.nav.lightMode}` : `☾ ${t.nav.darkMode}`}
@@ -600,15 +606,11 @@ function Hero({ t, onOpenLeadModal }) {
             <button className="ctap" style={{ padding: '16px 36px', fontSize: 12 }} onClick={onOpenLeadModal}>
               {t.hero.ctaPrimary}
             </button>
-            <a href="#contact" style={{ textDecoration: 'none' }}>
-              <button className="ctap" style={{ padding: '16px 36px', fontSize: 12 }}>
-                {t.hero.ctaTertiary}
-              </button>
+            <a href="#contact" className="ctap" style={{ padding: '16px 36px', fontSize: 12, display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
+              {t.hero.ctaTertiary}
             </a>
-            <a href="#method" style={{ textDecoration: 'none' }}>
-              <button className="ctao" style={{ padding: '16px 36px', fontSize: 12 }}>
-                {t.hero.ctaSecondary}
-              </button>
+            <a href="#method" className="ctao" style={{ padding: '16px 36px', fontSize: 12, display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
+              {t.hero.ctaSecondary}
             </a>
           </div>
           <div className="vis-d4 hero-stats" style={{ display: 'flex', gap: 0, flexWrap: 'wrap', borderTop: '1px solid var(--border)', paddingTop: 36 }}>
@@ -1279,10 +1281,8 @@ function PlanCard({ plan, vis, idx, labels }) {
       </div>
 
       <div style={{ padding: '28px 32px 36px' }}>
-        <a href="#contact" style={{ textDecoration: 'none', display: 'block' }}>
-          <button className={plan.hot ? 'ctap' : 'ctao'} style={{ width: '100%', padding: '14px', fontSize: 11 }}>
-            {plan.cta}
-          </button>
+        <a href="#contact" className={plan.hot ? 'ctap' : 'ctao'} style={{ width: '100%', padding: '14px', fontSize: 11, display: 'block', textAlign: 'center', textDecoration: 'none' }}>
+          {plan.cta}
         </a>
         {plan.apply && (
           <div className="mm" style={{ fontSize: 9, letterSpacing: 1.5, color: 'var(--text-subtle)', textAlign: 'center', marginTop: 10 }}>
@@ -1715,10 +1715,8 @@ function StickyMobileCta({ t, onOpenLeadModal }) {
       <button type="button" className="ctap sticky-cta-btn" style={{ flex: 1, fontSize: 10, padding: '11px 8px' }} onClick={onOpenLeadModal}>
         {t.mobileCta.primary}
       </button>
-      <a href="#contact" style={{ flex: 1, textDecoration: 'none' }}>
-        <button type="button" className="ctao sticky-cta-btn" style={{ width: '100%', fontSize: 10, padding: '11px 8px' }}>
-          {t.mobileCta.secondary}
-        </button>
+      <a href="#contact" className="ctao sticky-cta-btn" style={{ flex: 1, fontSize: 10, padding: '11px 8px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
+        {t.mobileCta.secondary}
       </a>
     </div>
   );
@@ -1731,11 +1729,15 @@ export default function TQBuilt() {
   const [language, setLanguage] = useState('ar');
   const [leadModalOpen, setLeadModalOpen] = useState(false);
   const [theme, setTheme] = useState(() => {
-    const fromDom = document.documentElement.getAttribute('data-theme');
-    if (fromDom === 'light' || fromDom === 'dark') return fromDom;
-    const saved = localStorage.getItem('tq-theme');
-    if (saved === 'light' || saved === 'dark') return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    try {
+      const fromDom = document.documentElement.getAttribute('data-theme');
+      if (fromDom === 'light' || fromDom === 'dark') return fromDom;
+      const saved = localStorage.getItem('tq-theme');
+      if (saved === 'light' || saved === 'dark') return saved;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    } catch {
+      return 'dark';
+    }
   });
   const t = TRANSLATIONS[language];
 
