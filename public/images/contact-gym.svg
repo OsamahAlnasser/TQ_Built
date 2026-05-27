@@ -1,0 +1,22 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="c1" x1="0" y1="0" x2="1200" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#15120E"/>
+      <stop offset="1" stop-color="#080808"/>
+    </linearGradient>
+    <radialGradient id="c2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(860 250) rotate(128) scale(420 340)">
+      <stop stop-color="#D89C48" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#D89C48" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#c1)"/>
+  <rect width="1200" height="900" fill="url(#c2)"/>
+  <path d="M220 650H980" stroke="#B88E4A" stroke-width="30" stroke-linecap="round"/>
+  <rect x="186" y="598" width="52" height="104" rx="12" fill="#644723"/>
+  <rect x="962" y="598" width="52" height="104" rx="12" fill="#644723"/>
+  <rect x="154" y="570" width="44" height="160" rx="12" fill="#2A1F13"/>
+  <rect x="1002" y="570" width="44" height="160" rx="12" fill="#2A1F13"/>
+  <circle cx="600" cy="350" r="74" fill="#C59252"/>
+  <path d="M500 610C500 500 548 438 600 438C652 438 700 500 700 610V820H500V610Z" fill="#7A552A"/>
+  <text x="600" y="120" text-anchor="middle" fill="#DAB87F" font-family="DM Sans, sans-serif" font-size="38" letter-spacing="6">START YOUR TRANSFORMATION</text>
+</svg>

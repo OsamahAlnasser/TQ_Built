@@ -178,6 +178,53 @@ input::placeholder,textarea::placeholder{color:var(--text-faint);}
   animation:shimmer 3s linear infinite;
 }
 
+.section-shell{
+  border:1px solid var(--border-soft);
+  background:linear-gradient(145deg,var(--surface),var(--bg2));
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:var(--shadow-lg);
+}
+
+.premium-media{
+  position:relative;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(201,165,80,.22);
+  background:var(--surface-2);
+}
+.premium-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  filter:saturate(1.04) contrast(1.02);
+}
+.premium-media::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(7,7,7,.12),rgba(7,7,7,.65));
+}
+.premium-media::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 78% 22%, rgba(201,165,80,.32), transparent 55%);
+}
+.premium-media-caption{
+  position:absolute;
+  inset-inline-start:20px;
+  inset-inline-end:20px;
+  bottom:18px;
+  z-index:2;
+  font-family:var(--mono-font);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-size:.63rem;
+  color:#fff;
+}
+
 .about-grid,.method-header,.domains-header,.contact-grid,.results-grid,.form-grid{
   width:100%;
 }
@@ -224,6 +271,8 @@ input::placeholder,textarea::placeholder{color:var(--text-faint);}
   .desktop-only{display:none!important}
   .quick-quiz-grid{grid-template-columns:1fr!important}
   .sticky-mobile-cta{display:flex!important}
+  .section-shell{border-radius:14px!important}
+  .premium-media-caption{inset-inline-start:14px!important;inset-inline-end:14px!important;font-size:.58rem!important;letter-spacing:.14em!important}
 }
 
 @media(max-width:420px){
@@ -258,6 +307,17 @@ const EXTRA_STYLES = `
 .rtl .hero-copy { font-size: clamp(1rem, 2.8vw, 1.25rem) !important; line-height: 1.85 !important; }
 .rtl .hero-stats-val { font-size: clamp(1.8rem, 3.5vw, 2.8rem) !important; }
 `;
+const IMAGE_ASSETS = {
+  hero: '/images/hero-gym.svg',
+  about: '/images/about-coach.svg',
+  method: '/images/method-training.svg',
+  domains: '/images/domains-strength.svg',
+  results: '/images/results-performance.svg',
+  plans: '/images/plans-studio.svg',
+  contact: '/images/contact-gym.svg',
+};
+const MEDIA_FALLBACK =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23120f0b'/%3E%3Cstop offset='1' stop-color='%23080808'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='800' fill='url(%23g)'/%3E%3C/svg%3E";
 const MOBILE_BREAKPOINT = 768;
 const mobileMediaQuery = `(max-width: ${MOBILE_BREAKPOINT}px)`;
 const reusableEmailInput =
@@ -365,12 +425,6 @@ function HeroCanvas() {
 
 // ─── HERO VISUAL ──────────────────────────────────────────────────────────────
 function HeroVisual() {
-  const cx = 220, cy = 220, R = 150;
-  const pentagonPoints = [0, 1, 2, 3, 4].map((i) => {
-    const a = (i * 72 - 90) * (Math.PI / 180);
-    return [cx + R * Math.cos(a), cy + R * Math.sin(a)];
-  });
-
   return (
     <div
       className="hero-visual-col hide-mob"
@@ -383,42 +437,7 @@ function HeroVisual() {
         userSelect: 'none',
       }}
     >
-      <svg
-        viewBox="0 0 440 440"
-        width="440"
-        height="440"
-        fill="none"
-        aria-hidden="true"
-        style={{ position: 'absolute', inset: 0 }}
-      >
-        {/* Background rings */}
-        <circle cx={cx} cy={cy} r={R + 48} stroke="rgba(201,165,80,0.04)" strokeWidth="1" />
-        <circle cx={cx} cy={cy} r={R + 18} stroke="rgba(201,165,80,0.06)" strokeWidth="1" strokeDasharray="3 10" />
-        <circle cx={cx} cy={cy} r={R} stroke="rgba(201,165,80,0.10)" strokeWidth="1" />
-        <circle cx={cx} cy={cy} r={R - 55} stroke="rgba(201,165,80,0.07)" strokeWidth="1" strokeDasharray="2 8" />
-        <circle cx={cx} cy={cy} r={44} stroke="rgba(201,165,80,0.22)" strokeWidth="1" fill="rgba(201,165,80,0.04)" />
-
-        {/* Pentagon outline */}
-        <polygon
-          points={pentagonPoints.map(([x, y]) => `${x},${y}`).join(' ')}
-          stroke="rgba(201,165,80,0.09)"
-          strokeWidth="0.8"
-          fill="rgba(201,165,80,0.02)"
-        />
-
-        {/* Phase nodes */}
-        {pentagonPoints.map(([x, y], i) => (
-          <g key={i}>
-            <line x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(201,165,80,0.07)" strokeWidth="0.7" />
-            <circle cx={x} cy={y} r="18" stroke="rgba(201,165,80,0.25)" strokeWidth="1" fill="rgba(201,165,80,0.06)" />
-            <circle cx={x} cy={y} r="5" fill="rgba(201,165,80,0.45)" />
-          </g>
-        ))}
-
-        {/* Center TQ mark */}
-        <text x={cx} y={cy - 6} textAnchor="middle" fill="rgba(201,165,80,0.28)" fontSize="30" fontFamily="Bebas Neue, sans-serif" letterSpacing="5">TQ</text>
-        <text x={cx} y={cy + 16} textAnchor="middle" fill="rgba(201,165,80,0.14)" fontSize="8" fontFamily="DM Mono, monospace" letterSpacing="5">METHOD</text>
-      </svg>
+      <SectionMedia src={IMAGE_ASSETS.hero} alt="Strength athlete and premium gym setup" caption="Elite performance atmosphere" minHeight={440} aspectRatio="1 / 1" />
 
       {/* Floating metric chips */}
       {[
@@ -427,8 +446,8 @@ function HeroVisual() {
         { val: '5×', label: 'Phases', angle: 130, dist: 200 },
       ].map(({ val, label, angle, dist }, i) => {
         const rad = angle * (Math.PI / 180);
-        const left = cx + dist * Math.cos(rad) - 44;
-        const top = cy + dist * Math.sin(rad) - 24;
+        const left = 220 + dist * Math.cos(rad) - 44;
+        const top = 220 + dist * Math.sin(rad) - 24;
         return (
           <div
             key={i}
@@ -449,6 +468,24 @@ function HeroVisual() {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+/** Reusable premium media frame with localized caption, overlay treatment, and safe fallback. */
+function SectionMedia({ src, alt, caption, minHeight = 340, aspectRatio = '16 / 10' }) {
+  return (
+    <div className="premium-media" style={{ minHeight, aspectRatio }}>
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        onError={(e) => {
+          if (e.currentTarget.src !== MEDIA_FALLBACK) e.currentTarget.src = MEDIA_FALLBACK;
+        }}
+      />
+      {caption && <div className="premium-media-caption">{caption}</div>}
     </div>
   );
 }
@@ -555,7 +592,8 @@ function Hero({ t, onOpenLeadModal }) {
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
-        background: `radial-gradient(ellipse 75% 60% at 65% 40%, rgba(201,165,80,.07) 0%, transparent 60%),
+        background: `linear-gradient(110deg, rgba(7,7,7,.88), rgba(7,7,7,.62)),
+                   radial-gradient(ellipse 75% 60% at 65% 40%, rgba(201,165,80,.07) 0%, transparent 60%),
                    radial-gradient(ellipse 50% 70% at 10% 90%, rgba(232,93,4,.05) 0%, transparent 55%),
                    radial-gradient(ellipse 35% 40% at 90% 15%, rgba(201,165,80,.04) 0%, transparent 50%),
                    var(--bg)`,
@@ -785,7 +823,7 @@ function ClientWinsCarousel({ t }) {
           <span className="gt">{t.clientWins.title[1]}</span>
         </h2>
         <p style={{ color: 'var(--text-soft)', maxWidth: 760, marginBottom: 22 }}>{t.clientWins.intro}</p>
-        <div style={{ border: '1px solid var(--border)', background: 'var(--surface)', padding: 22 }}>
+        <div className="section-shell" style={{ padding: 22 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, alignItems: 'center', marginBottom: 14, flexWrap: 'wrap' }}>
             <div>
               <div style={{ color: 'var(--text)', fontWeight: 700 }}>{current.name}</div>
@@ -830,30 +868,7 @@ function About({ t }) {
       <div style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 400, background: 'radial-gradient(circle, rgba(201,165,80,.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
       <div className="about-grid" style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', gap: 80, alignItems: 'center', flexWrap: 'wrap' }}>
         <div className={vis ? 'vis' : ''} style={{ flex: '0 0 340px', position: 'relative' }}>
-          <div
-            style={{
-              width: 340,
-              height: 440,
-              background: 'linear-gradient(145deg, var(--surface-2), var(--surface-2))',
-              border: '1px solid var(--border-strong)',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          >
-            <div style={{ position: 'absolute', top: 0, left: 0, width: 40, height: 40, borderTop: '2px solid var(--primary)', borderLeft: '2px solid var(--primary)' }} />
-            <div style={{ position: 'absolute', bottom: 0, right: 0, width: 40, height: 40, borderBottom: '2px solid var(--primary)', borderRight: '2px solid var(--primary)' }} />
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
-              <div style={{ width: 80, height: 80, borderRadius: '50%', border: '2px solid var(--border-strong)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: 36, color: 'var(--primary)' }}>TM</span>
-              </div>
-              <div className="mm" style={{ fontSize: 9, letterSpacing: 3, color: 'var(--text-faint)', textTransform: 'uppercase' }}>
-                {t.about.portraitName}
-              </div>
-              <div className="mm" style={{ fontSize: 9, letterSpacing: 3, color: 'var(--text-faint)', textTransform: 'uppercase' }}>
-                {t.about.portraitRole}
-              </div>
-            </div>
-          </div>
+          <SectionMedia src={IMAGE_ASSETS.about} alt="Coach portrait and gym atmosphere" caption={`${t.about.portraitName} · ${t.about.portraitRole}`} minHeight={440} aspectRatio="3 / 4" />
           <div style={{ position: 'absolute', top: -16, right: -24, background: 'var(--accent)', color: 'var(--on-accent)', padding: '8px 16px', fontSize: 10, fontFamily: 'DM Mono, monospace', letterSpacing: 2 }}>
             {t.about.badgeYears}
           </div>
@@ -922,6 +937,10 @@ function Method({ t }) {
           <div className={vis ? 'vis-d2' : ''} style={{ maxWidth: 380, paddingBottom: 8 }}>
             <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--text-muted)' }}>{t.method.intro}</p>
           </div>
+        </div>
+
+        <div className={vis ? 'vis-d2' : ''} style={{ marginBottom: 44 }}>
+          <SectionMedia src={IMAGE_ASSETS.method} alt="Training method setup with strength coaching cues" caption={t.method.tag} minHeight={260} />
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -1031,6 +1050,9 @@ function Domains({ t }) {
             <p style={{ maxWidth: 420, fontSize: 15, lineHeight: 1.8, color: 'var(--text-soft)', paddingBottom: 8 }}>{t.domains.intro}</p>
           </div>
         </div>
+        <div className={vis ? 'vis-d2' : ''} style={{ marginBottom: 20 }}>
+          <SectionMedia src={IMAGE_ASSETS.domains} alt="Premium studio and personal training spaces" caption={t.domains.tag} minHeight={240} />
+        </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 2 }}>
           {t.domains.items.map((d, i) => (
             <DomainCard key={i} d={d} vis={vis} idx={i} />
@@ -1100,7 +1122,7 @@ function Results({ t }) {
           </h2>
         </div>
 
-        <div className={`${vis ? 'vis-d2' : ''} results-grid`} style={{ border: '1px solid var(--border)', background: 'var(--bg2)', display: 'grid', gridTemplateColumns: '1fr 1fr', overflow: 'hidden' }}>
+        <div className={`${vis ? 'vis-d2' : ''} results-grid section-shell`} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
           <div className="rtl-right testimonials-side" style={{ padding: '60px 56px', borderRight: '1px solid var(--border)' }}>
             <div style={{ fontSize: 64, color: 'var(--border)', fontFamily: 'Georgia, serif', lineHeight: 1, marginBottom: 8 }}>
               "
@@ -1122,6 +1144,9 @@ function Results({ t }) {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ padding: 16, borderBottom: '1px solid var(--border)' }}>
+              <SectionMedia src={IMAGE_ASSETS.results} alt="Athletic performance progress visual" caption={t.results.tag} minHeight={170} />
+            </div>
             <div className="testimonial-stats" style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '48px 40px', gap: 32 }}>
               {testimonials[active].stats.map((s, i) => (
                 <div key={i} style={{ borderBottom: '1px solid var(--border-soft)', paddingBottom: 20 }}>
@@ -1191,6 +1216,10 @@ function Pricing({ t }) {
             <span className="gt">{t.plans.title[1]}</span>
           </h2>
           <p style={{ maxWidth: 520, margin: '0 auto', fontSize: 15, lineHeight: 1.8, color: 'var(--text-soft)' }}>{t.plans.intro}</p>
+        </div>
+
+        <div className={vis ? 'vis-d2' : ''} style={{ marginBottom: 20 }}>
+          <SectionMedia src={IMAGE_ASSETS.plans} alt="Coaching plans and premium training setup" caption={t.plans.tag} minHeight={220} />
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))', gap: 2 }}>
@@ -1402,6 +1431,10 @@ function Contact({ t }) {
             ))}
           </div>
 
+          <div style={{ marginBottom: 40 }}>
+            <SectionMedia src={IMAGE_ASSETS.contact} alt="Gym environment for transformation coaching" caption={t.contact.tag} minHeight={220} />
+          </div>
+
           <div style={{ borderTop: '1px solid var(--border-soft)', paddingTop: 32 }}>
             <div className="mm" style={{ fontSize: 9, letterSpacing: 2, color: 'var(--text-subtle)', marginBottom: 16, textTransform: 'uppercase' }}>
               {t.contact.trustedBy}
@@ -1416,7 +1449,7 @@ function Contact({ t }) {
           </div>
         </div>
 
-        <div className={vis ? 'vis-d2' : ''} style={{ background: 'var(--surface)', border: '1px solid var(--border-soft)', padding: '48px 44px' }}>
+        <div className={`${vis ? 'vis-d2' : ''} section-shell`} style={{ padding: '48px 44px' }}>
           {sent ? (
             <div style={{ textAlign: 'center', padding: '60px 0' }}>
               <div style={{ fontSize: 48, marginBottom: 20 }}>◈</div>

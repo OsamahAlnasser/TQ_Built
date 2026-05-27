@@ -1,0 +1,37 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1920" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0A0A0B"/>
+      <stop offset="0.45" stop-color="#1A1310"/>
+      <stop offset="1" stop-color="#070707"/>
+    </linearGradient>
+    <radialGradient id="spot" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1310 430) rotate(132) scale(650 550)">
+      <stop stop-color="#FF9F45" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#FF9F45" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bar" x1="280" y1="716" x2="1640" y2="716" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D8BC7A"/>
+      <stop offset="1" stop-color="#8C6A34"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#spot)"/>
+  <g opacity="0.2">
+    <path d="M0 820L1920 560" stroke="#C9A550" stroke-opacity="0.4" stroke-width="2"/>
+    <path d="M0 900L1920 640" stroke="#C9A550" stroke-opacity="0.3" stroke-width="2"/>
+    <path d="M0 980L1920 720" stroke="#C9A550" stroke-opacity="0.25" stroke-width="2"/>
+  </g>
+  <g opacity="0.95">
+    <rect x="280" y="695" width="1360" height="42" rx="21" fill="url(#bar)"/>
+    <rect x="240" y="650" width="56" height="132" rx="14" fill="#6E5125"/>
+    <rect x="1624" y="650" width="56" height="132" rx="14" fill="#6E5125"/>
+    <rect x="196" y="626" width="58" height="180" rx="14" fill="#352713"/>
+    <rect x="1666" y="626" width="58" height="180" rx="14" fill="#352713"/>
+  </g>
+  <g opacity="0.85">
+    <path d="M910 612C942 578 982 560 1026 560C1108 560 1176 636 1176 732C1176 808 1138 872 1086 900" stroke="#EFD39A" stroke-width="20" stroke-linecap="round"/>
+    <path d="M780 900C746 876 710 816 710 744C710 642 776 560 860 560C902 560 938 576 970 608" stroke="#A87A3A" stroke-width="20" stroke-linecap="round"/>
+    <circle cx="944" cy="508" r="48" fill="#C89C58"/>
+  </g>
+  <rect x="0" y="0" width="1920" height="1080" fill="url(#spot)"/>
+</svg>

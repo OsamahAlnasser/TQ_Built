@@ -1,0 +1,21 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="d1" x1="0" y1="0" x2="1400" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#15120E"/>
+      <stop offset="1" stop-color="#080808"/>
+    </linearGradient>
+    <radialGradient id="d2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(980 280) rotate(126) scale(460 370)">
+      <stop stop-color="#E1A54E" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#E1A54E" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#d1)"/>
+  <rect width="1400" height="900" fill="url(#d2)"/>
+  <path d="M220 700H1180" stroke="#BC934F" stroke-width="28" stroke-linecap="round"/>
+  <rect x="188" y="650" width="52" height="100" rx="12" fill="#6A4A24"/>
+  <rect x="1160" y="650" width="52" height="100" rx="12" fill="#6A4A24"/>
+  <circle cx="700" cy="330" r="68" fill="#CB9754"/>
+  <path d="M594 618C594 504 648 438 700 438C752 438 806 504 806 618V818H594V618Z" fill="#805A2D"/>
+  <path d="M636 616C636 556 668 520 700 520C732 520 764 556 764 616V818H636V616Z" fill="#26190F"/>
+  <text x="700" y="148" text-anchor="middle" fill="#D7B06D" font-family="DM Sans, sans-serif" font-size="42" letter-spacing="7">STRENGTH · PERFORMANCE · NUTRITION</text>
+</svg>
