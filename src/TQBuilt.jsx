@@ -311,10 +311,13 @@ const IMAGE_ASSETS = {
   hero: '/images/hero-gym.svg',
   about: '/images/about-coach.svg',
   method: '/images/method-training.svg',
+  domains: '/images/domains-strength.svg',
   results: '/images/results-performance.svg',
   plans: '/images/plans-studio.svg',
   contact: '/images/contact-gym.svg',
 };
+const MEDIA_FALLBACK =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23120f0b'/%3E%3Cstop offset='1' stop-color='%23080808'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='800' fill='url(%23g)'/%3E%3C/svg%3E";
 const MOBILE_BREAKPOINT = 768;
 const mobileMediaQuery = `(max-width: ${MOBILE_BREAKPOINT}px)`;
 const reusableEmailInput =
@@ -422,8 +425,6 @@ function HeroCanvas() {
 
 // ─── HERO VISUAL ──────────────────────────────────────────────────────────────
 function HeroVisual() {
-  const cx = 220;
-  const cy = 220;
   return (
     <div
       className="hero-visual-col hide-mob"
@@ -436,7 +437,7 @@ function HeroVisual() {
         userSelect: 'none',
       }}
     >
-      <SectionMedia src={IMAGE_ASSETS.hero} alt="Strength athlete and premium gym setup" caption="Elite performance atmosphere" minHeight={440} />
+      <SectionMedia src={IMAGE_ASSETS.hero} alt="Strength athlete and premium gym setup" caption="Elite performance atmosphere" minHeight={440} aspectRatio="1 / 1" />
 
       {/* Floating metric chips */}
       {[
@@ -445,8 +446,8 @@ function HeroVisual() {
         { val: '5×', label: 'Phases', angle: 130, dist: 200 },
       ].map(({ val, label, angle, dist }, i) => {
         const rad = angle * (Math.PI / 180);
-        const left = cx + dist * Math.cos(rad) - 44;
-        const top = cy + dist * Math.sin(rad) - 24;
+        const left = 220 + dist * Math.cos(rad) - 44;
+        const top = 220 + dist * Math.sin(rad) - 24;
         return (
           <div
             key={i}
@@ -471,10 +472,19 @@ function HeroVisual() {
   );
 }
 
-function SectionMedia({ src, alt, caption, minHeight = 340 }) {
+/** Reusable premium media frame with localized caption, overlay treatment, and safe fallback. */
+function SectionMedia({ src, alt, caption, minHeight = 340, aspectRatio = '16 / 10' }) {
   return (
-    <div className="premium-media" style={{ minHeight }}>
-      <img src={src} alt={alt} loading="lazy" />
+    <div className="premium-media" style={{ minHeight, aspectRatio }}>
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        onError={(e) => {
+          if (e.currentTarget.src !== MEDIA_FALLBACK) e.currentTarget.src = MEDIA_FALLBACK;
+        }}
+      />
       {caption && <div className="premium-media-caption">{caption}</div>}
     </div>
   );
@@ -583,7 +593,6 @@ function Hero({ t, onOpenLeadModal }) {
         display: 'flex',
         alignItems: 'center',
         background: `linear-gradient(110deg, rgba(7,7,7,.88), rgba(7,7,7,.62)),
-                   url(${IMAGE_ASSETS.hero}) center/cover no-repeat,
                    radial-gradient(ellipse 75% 60% at 65% 40%, rgba(201,165,80,.07) 0%, transparent 60%),
                    radial-gradient(ellipse 50% 70% at 10% 90%, rgba(232,93,4,.05) 0%, transparent 55%),
                    radial-gradient(ellipse 35% 40% at 90% 15%, rgba(201,165,80,.04) 0%, transparent 50%),
@@ -859,7 +868,7 @@ function About({ t }) {
       <div style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 400, background: 'radial-gradient(circle, rgba(201,165,80,.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
       <div className="about-grid" style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', gap: 80, alignItems: 'center', flexWrap: 'wrap' }}>
         <div className={vis ? 'vis' : ''} style={{ flex: '0 0 340px', position: 'relative' }}>
-          <SectionMedia src={IMAGE_ASSETS.about} alt="Coach portrait and gym atmosphere" caption={`${t.about.portraitName} · ${t.about.portraitRole}`} minHeight={440} />
+          <SectionMedia src={IMAGE_ASSETS.about} alt="Coach portrait and gym atmosphere" caption={`${t.about.portraitName} · ${t.about.portraitRole}`} minHeight={440} aspectRatio="3 / 4" />
           <div style={{ position: 'absolute', top: -16, right: -24, background: 'var(--accent)', color: 'var(--on-accent)', padding: '8px 16px', fontSize: 10, fontFamily: 'DM Mono, monospace', letterSpacing: 2 }}>
             {t.about.badgeYears}
           </div>
@@ -1042,7 +1051,7 @@ function Domains({ t }) {
           </div>
         </div>
         <div className={vis ? 'vis-d2' : ''} style={{ marginBottom: 20 }}>
-          <SectionMedia src={IMAGE_ASSETS.plans} alt="Premium studio and personal training spaces" caption={t.domains.tag} minHeight={240} />
+          <SectionMedia src={IMAGE_ASSETS.domains} alt="Premium studio and personal training spaces" caption={t.domains.tag} minHeight={240} />
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 2 }}>
           {t.domains.items.map((d, i) => (
