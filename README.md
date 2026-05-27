@@ -24,6 +24,11 @@ npm run preview
   - `src/translations/ar.js`
   - `src/translations/en.js`
 
+## Design assets
+
+- Premium section imagery is bundled locally under `public/images/`.
+- Components reference these local files directly so production does not depend on external image hotlinks.
+
 ## GitHub Pages deployment
 
 - Vite base path is configured for project pages: `/TQ_Built/`.

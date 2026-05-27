@@ -1,0 +1,27 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="r1" x1="0" y1="0" x2="1200" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#121111"/>
+      <stop offset="1" stop-color="#090909"/>
+    </linearGradient>
+    <radialGradient id="r2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(880 280) rotate(128) scale(400 340)">
+      <stop stop-color="#DE9D42" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#DE9D42" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line" x1="112" y1="680" x2="1088" y2="390" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#85622D"/>
+      <stop offset="1" stop-color="#E5BE79"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#r1)"/>
+  <rect width="1200" height="900" fill="url(#r2)"/>
+  <rect x="110" y="130" width="980" height="640" rx="24" stroke="#C9A550" stroke-opacity="0.45" stroke-width="2"/>
+  <path d="M182 656L372 566L558 604L738 470L924 412L1024 314" stroke="url(#line)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="372" cy="566" r="14" fill="#DDB16D"/>
+  <circle cx="558" cy="604" r="14" fill="#DDB16D"/>
+  <circle cx="738" cy="470" r="14" fill="#DDB16D"/>
+  <circle cx="924" cy="412" r="14" fill="#DDB16D"/>
+  <circle cx="1024" cy="314" r="14" fill="#DDB16D"/>
+  <text x="184" y="250" fill="#EED1A3" font-family="DM Sans, sans-serif" font-size="82" letter-spacing="7">+ 168%</text>
+  <text x="184" y="306" fill="#A38A66" font-family="DM Sans, sans-serif" font-size="30" letter-spacing="4">PERFORMANCE UPLIFT</text>
+</svg>
